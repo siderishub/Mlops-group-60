@@ -13,7 +13,7 @@ def plot_metrics(out_dicts, filename=""):
     # Plot accuracies
     for out_dict, col in zip(out_dicts, ['blue', 'orange']):
         ax1.plot(epochs, [x*100 for x in out_dict['train_acc']], label=f'{out_dict["name"]} Train Accuracy', marker='o', color=col, linestyle='dashed')
-        ax1.plot(epochs, [x*100 for x in out_dict['test_acc']], label=f'{out_dict["name"]} Test Accuracy', marker='o', color=col)
+        # ax1.plot(epochs, [x*100 for x in out_dict['test_acc']], label=f'{out_dict["name"]} Test Accuracy', marker='o', color=col)
     ax1.set_title('Accuracy over Epochs')
     ax1.set_xlabel('Epoch')
     ax1.set_ylabel('Accuracy [%]')
@@ -24,7 +24,7 @@ def plot_metrics(out_dicts, filename=""):
     # Plot losses
     for out_dict, col in zip(out_dicts, ['blue', 'orange']):
         ax2.plot(epochs, out_dict['train_loss'], label=f'{out_dict["name"]} Train Loss', marker='o', color=col, linestyle='dashed')
-        ax2.plot(epochs, out_dict['test_loss'], label=f'{out_dict["name"]} Test Loss', marker='x', color=col)
+        # ax2.plot(epochs, out_dict['test_loss'], label=f'{out_dict["name"]} Test Loss', marker='x', color=col)
     ax2.set_title('Loss over Epochs')
     ax2.set_xlabel('Epoch')
     ax2.set_ylabel('Loss')

@@ -9,13 +9,11 @@ from torch.utils.data import DataLoader
 from torch import nn
 import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
-from model import CNN_Simple
-
-# Your custom functions for plotting
+from model import CNN_Baseline
 from visualize import plot_metrics, plot_confusion_matrix
 from data import data_loader
 
-def train(model, optimizer, criterion, num_epochs=10, name="CNN", folder=datetime.now().strftime("%Y-%m-%d-%H-%M-%S")):
+def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
     out_dict = {
                 'name': name,
                 'train_acc': [],
@@ -23,7 +21,6 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN", folder=datetim
                 'train_loss': [],
                 'test_loss': []
                 }
-    run_start = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
     for epoch in tqdm(range(num_epochs), unit='epoch'):
         model.train()
         # For each epoch
@@ -47,41 +44,47 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN", folder=datetim
             predicted = output.argmax(1)
             train_correct += (target == predicted).sum().cpu().item()
 
-        # Compute the test accuracy
-        test_loss = []
-        test_correct = 0
-        model.eval()
-        for data, target in test_loader:
-            data, target = data.to(device), target.to(device)
-            with torch.no_grad():
-                output = model(data)
-            test_loss.append(criterion(output, target).cpu().item())
-            predicted = output.argmax(1)
-            test_correct += (target == predicted).sum().cpu().item()
+        # # Compute the test accuracy
+        # test_loss = []
+        # test_correct = 0
+        # model.eval()
+        # for data, target in test_loader:
+        #     data, target = data.to(device), target.to(device)
+        #     with torch.no_grad():
+        #         output = model(data)
+        #     test_loss.append(criterion(output, target).cpu().item())
+        #     predicted = output.argmax(1)
+        #     test_correct += (target == predicted).sum().cpu().item()
         out_dict['train_acc'].append(train_correct / len(trainset))
-        out_dict['test_acc'].append(test_correct / len(testset))
+        # out_dict['test_acc'].append(test_correct / len(testset))
         out_dict['train_loss'].append(np.mean(train_loss))
-        out_dict['test_loss'].append(np.mean(test_loss))
-        print(f"Loss train: {np.mean(train_loss):.3f}\t test: {np.mean(test_loss):.3f}\t",
-              f"Accuracy train: {out_dict['train_acc'][-1] * 100:.1f}%\t test: {out_dict['test_acc'][-1] * 100:.1f}%")
-        os.makedirs(run_start, exist_ok=True)
-        filename_model = os.path.join(run_start, f"{name}-model", f"{epoch}.pt")    
-        filename_plot_metrics = os.path.join(run_start, f"metrics.png")
-        filename_plot_conf_mat = os.path.join(run_start, f"Confusion-Matrix", f"{epoch}.png")
-        df=pd.DataFrame(out_dict)
-        df.to_csv(os.path.join(run_start, f'training_metrics{epoch}.csv'), index=False)
+        # out_dict['test_loss'].append(np.mean(test_loss))
 
-        os.makedirs(os.path.dirname(filename_model), exist_ok=True)
-        os.makedirs(os.path.dirname(filename_plot_conf_mat), exist_ok=True)
-        os.makedirs(os.path.dirname(filename_plot_metrics), exist_ok=True)
-        t = time()
-        model.save(filename_model)
-        plot_metrics([out_dict], filename_plot_metrics)
-        plot_confusion_matrix(model, test_loader, device,
-                              class_names=["Pneumonia", "Normal"],
-                              filename=filename_plot_conf_mat)
+        print(f"Train Loss: {np.mean(train_loss):.3f}\t Train Accuracy: {out_dict['train_acc'][-1] * 100:.1f}%")
 
-        print(f"Took {time()-t:.2f} seconds to save and plot results")
+
+        # Save the model and visualizations
+        if epoch == num_epochs - 1:
+            # File and Directory Paths
+            model_dir = "models"
+            metrics_plot_path = os.path.join("reports", "figures", "metrics.png")
+            # confusion_matrix_path = os.path.join("reports", "figures", "Confusion-Matrix.png")
+            
+            # Create Directories if They Don't Exist
+            os.makedirs(model_dir, exist_ok=True)
+            os.makedirs(os.path.dirname(metrics_plot_path), exist_ok=True)
+
+            # Save Model
+            model_path = os.path.join(model_dir, f"{name}.pt")
+            torch.save(model.state_dict(), model_path)
+
+            # Save Visualizations
+            plot_metrics([out_dict], metrics_plot_path)
+            # plot_confusion_matrix(model, test_loader, device,
+            #                       class_names=["Pneumonia", "Normal"],
+            #                       filename=confusion_matrix_path)
+
+            print(f"Final model and results saved: Model -> {model_path}, Plots -> {metrics_plot_path}")
 
         
 
@@ -119,7 +122,7 @@ if __name__ == "__main__":
     lr = 1e-3
 
 
-    model = CNN_Simple(num_classes=2)
+    model = CNN_Baseline(num_classes=2)
     model.to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     loss_fn = nn.CrossEntropyLoss()

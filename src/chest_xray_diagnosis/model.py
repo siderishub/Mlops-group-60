@@ -3,9 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class CNN_Simple(nn.Module):
+class CNN_Baseline(nn.Module):
     def __init__(self,num_classes=2):
-        super(CNN_Simple,self).__init__()
+        super(CNN_Baseline,self).__init__()
         self.conv1 = nn.Conv2d(3,16, kernel_size=3,padding=1)
 
         self.conv2 = nn.Conv2d(16,32,kernel_size=3,padding=1)

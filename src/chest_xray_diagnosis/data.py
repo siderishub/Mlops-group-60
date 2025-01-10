@@ -6,7 +6,7 @@ from torchvision import transforms
 import matplotlib.pyplot as plt
 
 class data_loader(torch.utils.data.Dataset):
-    def __init__(self, train, transform, data_path='chest_xray'):
+    def __init__(self, train, transform, data_path='data/raw/chest_xray'):
         'Initialization'
         self.transform = transform
         data_path = os.path.join(data_path, 'train' if train else 'test')
