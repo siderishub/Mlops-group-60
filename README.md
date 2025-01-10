@@ -45,7 +45,9 @@ The directory structure of the project looks like this:
 ├── models/                   # Trained models
 ├── notebooks/                # Jupyter notebooks
 ├── reports/                  # Reports
-│   └── figures/
+│   ├── figures/
+|   ├── README.md
+|   └── report.py
 ├── src/                      # Source code
 │   ├── project_name/
 │   │   ├── __init__.py
