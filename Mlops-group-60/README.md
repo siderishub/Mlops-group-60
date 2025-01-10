@@ -1,7 +1,6 @@
 # chest_xray_diagnosis
 
-This project leverages deep learning to analyze pediatric chest X-ray images for the detection of pneumonia, categorizing cases into normal, bacterial, or viral infections.
-
+This project leverages deep learning to analyze pediatric chest X-ray images for the detection of pneumonia, categorizing cases into normal, or pneumonia-infected.
 ## Project structure
 
 The directory structure of the project looks like this:
