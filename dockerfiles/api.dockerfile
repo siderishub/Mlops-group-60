@@ -1,17 +1,22 @@
-# Change from latest to a specific version if your requirements.txt
-FROM python:3.11-slim AS base
+# Expose the port to match Google Cloud Run's requirements
+EXPOSE $PORT
 
-RUN apt update && \
-    apt install --no-install-recommends -y build-essential gcc && \
-    apt clean && rm -rf /var/lib/apt/lists/*
+# Set the working directory
+WORKDIR /app
 
-COPY src src/
-COPY requirements.txt requirements.txt
-COPY requirements_dev.txt requirements_dev.txt
-COPY README.md README.md
-COPY pyproject.toml pyproject.toml
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    software-properties-common \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install -r requirements.txt --no-cache-dir --verbose
-RUN pip install . --no-deps --no-cache-dir --verbose
+# Install Python dependencies
+RUN pip install fastapi uvicorn torch torchvision timm pillow
 
-ENTRYPOINT ["uvicorn", "src/chest_xray_diagnosis/api:app", "--host", "0.0.0.0", "--port", "8000"]
+# Copy application files
+COPY src/api.py /app/api.py
+COPY models/Pretrained.pt /app/models/Pretrained.pt
+
+# Set the command to run the FastAPI app
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "$PORT"] 
