@@ -1,0 +1,11 @@
+program: train.py
+name: sweep
+project: chest_xray_diagnosis
+#entity:  default 
+metric:
+    goal: minimize
+    name: validation_loss
+parameters:
+    epochs:
+        values: [5, 10, 15]
+run_cap: 10
