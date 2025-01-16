@@ -2,4 +2,3 @@
     remote = storage
 ['remote "storage"']
     url = gs://mlops60-data/x-ray
-    version_aware = true
