@@ -28,6 +28,13 @@ from timm import create_model
 import typer
 from loguru import logger
 
+try:
+    import wandb
+    wandb_available = True
+except ImportError:
+    wandb_available = False
+    logger.warning("Weights and Biases (wandb) not installed. Proceeding without it.")
+
 
 # Initialize Typer app
 app = typer.Typer(help="Train a model")
@@ -39,7 +46,7 @@ os.makedirs(log_dir, exist_ok=True)
 logger.add(os.path.join(log_dir, "train.log"), rotation="1 MB", level="INFO", format="{time} {level} {message}")
 
 
-def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
+def train(model, optimizer, criterion, num_epochs=10, name="CNN",use_wandb=False):
     """Train the CNN model"""
     out_dict = {
         'name': name,
@@ -76,6 +83,10 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
         out_dict['train_loss'].append(np.mean(train_loss))
 
         logger.info(f"Epoch {epoch + 1}/{num_epochs}: Train Loss: {np.mean(train_loss):.3f}, Train Accuracy: {out_dict['train_acc'][-1] * 100:.1f}%")
+
+        if wandb_available and use_wandb:
+            wandb.log({"epoch": epoch + 1, "train_loss": np.mean(train_loss), "train_accuracy": out_dict['train_acc'][-1] * 100})
+
         # Save the model and visualizations
         if epoch == num_epochs - 1:
             # File and Directory Paths
@@ -95,6 +106,7 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
 
             logger.info(f"Model saved at {model_path}")
             logger.info(f"Metrics plot saved at {metrics_plot_path}")
+
     return out_dict
 
 @app.command()
@@ -104,7 +116,8 @@ def main(
     learning_rate: float = typer.Option(1e-3, help="Learning rate for the optimizer."),
     model_name: str = typer.Option("Pretrained", help="Name of the model."),
     device_type: str = typer.Option(None, help="Device to run training (e.g., 'cuda', 'cpu', 'mps')."),
-    pretrained: str = typer.Option("True", help="Use a pre-trained model.")
+    pretrained: str = typer.Option("True", help="Use a pre-trained model."),
+    use_wandb: str = typer.Option("False", help="Enable or disable logging to Weights and Biases.")
 ):
     """Main CLI entry point for training the CNN model."""
     logger.info("Starting training script")
@@ -131,12 +144,27 @@ def main(
         model = CNN_Baseline(num_classes=2).to(device)
         logger.info("Initialized baseline model")
 
+    if wandb_available and use_wandb == "True":
+        try:
+            wandb.init(project="xray", config={
+                "model_name": model_name,
+                "batch_size": batch_size,
+                "learning_rate": learning_rate,
+                "num_epochs": num_epochs,
+                "device": device.type
+            })
+        except wandb.errors.UsageError as e:
+            logger.warning(f"Failed to initialize wandb: {e}. Proceeding without wandb.")
+            use_wandb = False
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     loss_fn = nn.CrossEntropyLoss()
     logger.info("Starting training")
-    train(model=model, optimizer=optimizer, criterion=loss_fn, num_epochs=num_epochs, name=model_name)
+    train(model=model, optimizer=optimizer, criterion=loss_fn, num_epochs=num_epochs, name=model_name, use_wandb=use_wandb == "True")
     logger.info("Training complete")
+
+    if wandb_available and use_wandb:
+        wandb.finish()
 
 if __name__ == "__main__":
     app()
