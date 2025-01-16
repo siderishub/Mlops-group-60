@@ -26,9 +26,18 @@ from model import CNN_Baseline
 from visualize import plot_metrics
 from timm import create_model
 import typer
+from loguru import logger
+
 
 # Initialize Typer app
-app = typer.Typer(help="Train a CNN")
+app = typer.Typer(help="Train a model")
+
+# Ensure logs folder exists
+log_dir = "logs"
+os.makedirs(log_dir, exist_ok=True)
+
+logger.add(os.path.join(log_dir, "train.log"), rotation="1 MB", level="INFO", format="{time} {level} {message}")
+
 
 def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
     """Train the CNN model"""
@@ -40,6 +49,7 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
         'test_loss': []
     }
     for epoch in tqdm(range(num_epochs), unit='epoch'):
+        logger.info(f"Starting epoch {epoch + 1}/{num_epochs}")
         model.train()
         # For each epoch
         train_correct = 0
@@ -62,30 +72,15 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
             predicted = output.argmax(1)
             train_correct += (target == predicted).sum().cpu().item()
 
-        # # Compute the test accuracy
-        # test_loss = []
-        # test_correct = 0
-        # model.eval()
-        # for data, target in test_loader:
-        #     data, target = data.to(device), target.to(device)
-        #     with torch.no_grad():
-        #         output = model(data)
-        #     test_loss.append(criterion(output, target).cpu().item())
-        #     predicted = output.argmax(1)
-        #     test_correct += (target == predicted).sum().cpu().item()
         out_dict['train_acc'].append(train_correct / len(trainset))
-        # out_dict['test_acc'].append(test_correct / len(testset))
         out_dict['train_loss'].append(np.mean(train_loss))
-        # out_dict['test_loss'].append(np.mean(test_loss))
 
-        print(f"Train Loss: {np.mean(train_loss):.3f}\t Train Accuracy: {out_dict['train_acc'][-1] * 100:.1f}%")
-
+        logger.info(f"Epoch {epoch + 1}/{num_epochs}: Train Loss: {np.mean(train_loss):.3f}, Train Accuracy: {out_dict['train_acc'][-1] * 100:.1f}%")
         # Save the model and visualizations
         if epoch == num_epochs - 1:
             # File and Directory Paths
             model_dir = "models"
             metrics_plot_path = os.path.join("reports", "figures", "metrics.png")
-            # confusion_matrix_path = os.path.join("reports", "figures", "Confusion-Matrix.png")
             
             # Create Directories if They Don't Exist
             os.makedirs(model_dir, exist_ok=True)
@@ -97,12 +92,9 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
 
             # Save Visualizations
             plot_metrics([out_dict], metrics_plot_path)
-            # plot_confusion_matrix(model, test_loader, device,
-            #                       class_names=["Pneumonia", "Normal"],
-            #                       filename=confusion_matrix_path)
 
-            print(f"Final model and results saved: Model -> {model_path}, Plots -> {metrics_plot_path}")
-
+            logger.info(f"Model saved at {model_path}")
+            logger.info(f"Metrics plot saved at {metrics_plot_path}")
     return out_dict
 
 @app.command()
@@ -112,9 +104,10 @@ def main(
     learning_rate: float = typer.Option(1e-3, help="Learning rate for the optimizer."),
     model_name: str = typer.Option("Pretrained", help="Name of the model."),
     device_type: str = typer.Option(None, help="Device to run training (e.g., 'cuda', 'cpu', 'mps')."),
-    pretrained: bool = typer.Option(True, help="Use a pre-trained model.")
+    pretrained: str = typer.Option("True", help="Use a pre-trained model.")
 ):
     """Main CLI entry point for training the CNN model."""
+    logger.info("Starting training script")
     print("Using CUDA" if torch.cuda.is_available() else "Using MPS" if torch.backends.mps.is_available() else "Using CPU")
     global device
     device = torch.device(device_type or ('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'))
@@ -125,18 +118,25 @@ def main(
     testset = data_loader(train=False)
     test_loader = DataLoader(testset, batch_size=batch_size, shuffle=False, num_workers=0)
 
-    if pretrained:
+    logger.info(f"Device selected: {device}")
+    logger.info(f"Using pretrained model: {pretrained}")
+
+    if pretrained == "True":
         model = create_model('mobilenetv3_small_050.lamb_in1k', pretrained=True)
         in_features = model.get_classifier().in_features
         model.reset_classifier(num_classes=2)
         model.to(device)
+        logger.info("Initialized pretrained model")
     else:
         model = CNN_Baseline(num_classes=2).to(device)
+        logger.info("Initialized baseline model")
+
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     loss_fn = nn.CrossEntropyLoss()
-
+    logger.info("Starting training")
     train(model=model, optimizer=optimizer, criterion=loss_fn, num_epochs=num_epochs, name=model_name)
+    logger.info("Training complete")
 
 if __name__ == "__main__":
     app()
