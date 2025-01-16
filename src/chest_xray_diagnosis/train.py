@@ -24,6 +24,7 @@ from tqdm import tqdm
 from data import data_loader
 from model import CNN_Baseline
 from visualize import plot_metrics
+from timm import create_model
 import typer
 
 # Initialize Typer app
@@ -106,41 +107,32 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN"):
 
 @app.command()
 def main(
-    num_epochs: int = typer.Option(10, help="Number of epochs for training."),
+    num_epochs: int = typer.Option(2, help="Number of epochs for training."),
     batch_size: int = typer.Option(64, help="Batch size for data loaders."),
     learning_rate: float = typer.Option(1e-3, help="Learning rate for the optimizer."),
-    model_name: str = typer.Option("CNN_Baseline", help="Name of the model."),
-    device_type: str = typer.Option(None, help="Device to run training (e.g., 'cuda', 'cpu', 'mps').")
+    model_name: str = typer.Option("Pretrained", help="Name of the model."),
+    device_type: str = typer.Option(None, help="Device to run training (e.g., 'cuda', 'cpu', 'mps')."),
+    pretrained: bool = typer.Option(True, help="Use a pre-trained model.")
 ):
     """Main CLI entry point for training the CNN model."""
     print("Using CUDA" if torch.cuda.is_available() else "Using MPS" if torch.backends.mps.is_available() else "Using CPU")
     global device
     device = torch.device(device_type or ('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'))
 
-    size = 128
-    train_transform = transforms.Compose([
-        transforms.Grayscale(num_output_channels=3),  # Convert grayscale to RGB
-        transforms.Resize((size, size)),
-        transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(10),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-    ])
-    test_transform = transforms.Compose([
-        transforms.Grayscale(num_output_channels=3),  # Convert grayscale to RGB
-        transforms.Resize((size, size)),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-    ])
-
     global trainset, train_loader, test_loader
-    trainset = data_loader(train=True, transform=train_transform)
+    trainset = data_loader(train=True)
     train_loader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=0)
-    testset = data_loader(train=False, transform=test_transform)
+    testset = data_loader(train=False)
     test_loader = DataLoader(testset, batch_size=batch_size, shuffle=False, num_workers=0)
 
-    model = CNN_Baseline(num_classes=2).to(device)
+    if pretrained:
+        model = create_model('mobilenetv3_small_050.lamb_in1k', pretrained=True)
+        in_features = model.get_classifier().in_features
+        model.reset_classifier(num_classes=2)
+        model.to(device)
+    else:
+        model = CNN_Baseline(num_classes=2).to(device)
+
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     loss_fn = nn.CrossEntropyLoss()
 
