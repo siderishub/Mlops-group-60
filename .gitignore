@@ -1,6 +1,8 @@
 docs/site/
 
 data/
+logs/
+wandb/
 # test cache
 manual_test/
 
