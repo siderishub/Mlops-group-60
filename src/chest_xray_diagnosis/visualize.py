@@ -1,35 +1,48 @@
-import os
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import torch
 from sklearn.metrics import confusion_matrix
 
+
 def plot_metrics(out_dicts, filename=""):
-    epochs = range(1, len(out_dicts[0]['train_acc']) + 1)
+    epochs = range(1, len(out_dicts[0]["train_acc"]) + 1)
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
 
     # Plot accuracies
-    for out_dict, col in zip(out_dicts, ['blue', 'orange']):
-        ax1.plot(epochs, [x*100 for x in out_dict['train_acc']], label=f'{out_dict["name"]} Train Accuracy', marker='o', color=col, linestyle='dashed')
+    for out_dict, col in zip(out_dicts, ["blue", "orange"]):
+        ax1.plot(
+            epochs,
+            [x * 100 for x in out_dict["train_acc"]],
+            label=f'{out_dict["name"]} Train Accuracy',
+            marker="o",
+            color=col,
+            linestyle="dashed",
+        )
         # ax1.plot(epochs, [x*100 for x in out_dict['test_acc']], label=f'{out_dict["name"]} Test Accuracy', marker='o', color=col)
-    ax1.set_title('Accuracy over Epochs')
-    ax1.set_xlabel('Epoch')
-    ax1.set_ylabel('Accuracy [%]')
+    ax1.set_title("Accuracy over Epochs")
+    ax1.set_xlabel("Epoch")
+    ax1.set_ylabel("Accuracy [%]")
     ax1.set_xticks(epochs)
     ax1.legend()
     ax1.grid(True)
 
     # Plot losses
-    for out_dict, col in zip(out_dicts, ['blue', 'orange']):
-        ax2.plot(epochs, out_dict['train_loss'], label=f'{out_dict["name"]} Train Loss', marker='o', color=col, linestyle='dashed')
+    for out_dict, col in zip(out_dicts, ["blue", "orange"]):
+        ax2.plot(
+            epochs,
+            out_dict["train_loss"],
+            label=f'{out_dict["name"]} Train Loss',
+            marker="o",
+            color=col,
+            linestyle="dashed",
+        )
         # ax2.plot(epochs, out_dict['test_loss'], label=f'{out_dict["name"]} Test Loss', marker='x', color=col)
-    ax2.set_title('Loss over Epochs')
-    ax2.set_xlabel('Epoch')
-    ax2.set_ylabel('Loss')
+    ax2.set_title("Loss over Epochs")
+    ax2.set_xlabel("Epoch")
+    ax2.set_ylabel("Loss")
     ax2.set_xticks(epochs)
-    ax2.set_yscale('log')
+    ax2.set_yscale("log")
     ax2.legend()
     ax2.grid(True)
 
@@ -40,7 +53,7 @@ def plot_metrics(out_dicts, filename=""):
         plt.savefig(filename)
 
     plt.close()
-    
+
 
 def plot_confusion_matrix(model, test_loader, device, class_names, filename=""):
     model.eval()
@@ -60,10 +73,10 @@ def plot_confusion_matrix(model, test_loader, device, class_names, filename=""):
 
     # Plot
     plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names)
-    plt.xlabel('Predicted')
-    plt.ylabel('True')
-    plt.title('Confusion Matrix')
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=class_names, yticklabels=class_names)
+    plt.xlabel("Predicted")
+    plt.ylabel("True")
+    plt.title("Confusion Matrix")
 
     if filename:
         plt.savefig(filename)

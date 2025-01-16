@@ -19,4 +19,4 @@ COPY src/api.py /app/api.py
 COPY models/Pretrained.pt /app/models/Pretrained.pt
 
 # Set the command to run the FastAPI app
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "$PORT"] 
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "$PORT"]

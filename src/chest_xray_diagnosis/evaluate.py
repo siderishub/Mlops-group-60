@@ -3,9 +3,8 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 from torch import nn
-import torchvision.transforms as transforms
 from data import data_loader
-from visualize import  plot_confusion_matrix
+from visualize import plot_confusion_matrix
 from model import CNN_Baseline
 from timm import create_model
 import typer
@@ -18,12 +17,9 @@ os.makedirs(log_dir, exist_ok=True)
 
 logger.add(os.path.join(log_dir, "evaluate.log"), rotation="1 MB", level="INFO", format="{time} {level} {message}")
 
-def evaluate(model, criterion, test_loader, device, name = "Pretrained"):
-    out_dict_test = {
-                'name': name,
-                'test_acc': [],
-                'test_loss': []
-                }
+
+def evaluate(model, criterion, test_loader, device, name="Pretrained"):
+    out_dict_test = {"name": name, "test_acc": [], "test_loss": []}
     test_loss = []
     test_correct = 0
     model.eval()
@@ -36,17 +32,18 @@ def evaluate(model, criterion, test_loader, device, name = "Pretrained"):
         test_loss.append(criterion(output, target).cpu().item())
         predicted = output.argmax(1)
         test_correct += (target == predicted).sum().cpu().item()
-    out_dict_test['test_acc'].append(test_correct / len(testset))
-    out_dict_test['test_loss'].append(np.mean(test_loss))
+    out_dict_test["test_acc"].append(test_correct / len(testset))
+    out_dict_test["test_loss"].append(np.mean(test_loss))
     logger.info(f"Test Loss: {np.mean(test_loss):.3f}	 Test Accuracy: {out_dict_test['test_acc'][-1] * 100:.1f}%")
     confusion_matrix_path = os.path.join("reports", "figures", "Confusion-Matrix.png")
-    plot_confusion_matrix(model, test_loader, device,
-                                  class_names=["Pneumonia", "Normal"],
-                                  filename=confusion_matrix_path)
+    plot_confusion_matrix(
+        model, test_loader, device, class_names=["Pneumonia", "Normal"], filename=confusion_matrix_path
+    )
 
     logger.info(f"Confusion matrix saved at {confusion_matrix_path}")
 
     return out_dict_test
+
 
 @app.command()
 def main(
@@ -60,8 +57,12 @@ def main(
     """
     logger.info("Starting evaluation script")
 
-    print("Using CUDA" if torch.cuda.is_available() else "Using MPS" if torch.backends.mps.is_available() else "Using CPU")
-    device = torch.device(device_type or ('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'))
+    print(
+        "Using CUDA" if torch.cuda.is_available() else "Using MPS" if torch.backends.mps.is_available() else "Using CPU"
+    )
+    device = torch.device(
+        device_type or ("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+    )
 
     # Load test data
     global testset
@@ -72,8 +73,8 @@ def main(
     logger.info(f"Using pretrained model: {pretrained}")
     # Load the model
     model_path = os.path.join("models", f"{model_name}.pt")
-    if pretrained == 'True':
-        model = create_model('mobilenetv3_small_050.lamb_in1k', pretrained=True)
+    if pretrained == "True":
+        model = create_model("mobilenetv3_small_050.lamb_in1k", pretrained=True)
         model.reset_classifier(num_classes=2)
         logger.info("Initialized pretrained model")
     else:
@@ -98,6 +99,6 @@ def main(
     evaluate(model=model, criterion=loss_fn, test_loader=test_loader, device=device, name=model_name)
     logger.info("Evaluation complete")
 
+
 if __name__ == "__main__":
     app()
-

@@ -17,7 +17,7 @@ def test_CNN_Baseline():
 
 
 def test_mobilenetv3():
-    model = create_model('mobilenetv3_small_050.lamb_in1k', pretrained=True)
+    model = create_model("mobilenetv3_small_050.lamb_in1k", pretrained=True)
     model.reset_classifier(num_classes=2)  # Reset classifier for 2 output classes
     x = torch.randn(1, 3, 128, 128)  # Input tensor with shape (batch_size=1, channels=3, height=128, width=128)
     y = model(x)

@@ -1,35 +1,20 @@
 import os
 import numpy as np
-import pandas as pd
-from datetime import datetime
-from time import time
 from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader
 from torch import nn
-import matplotlib.pyplot as plt
-import torchvision.transforms as transforms
 from model import CNN_Baseline
-from visualize import plot_metrics, plot_confusion_matrix
+from visualize import plot_metrics
 from data import data_loader
 import typer
 
-import os
-import numpy as np
-import torch
-from torch.utils.data import DataLoader
-from torch import nn
-import torchvision.transforms as transforms
-from tqdm import tqdm
-from data import data_loader
-from model import CNN_Baseline
-from visualize import plot_metrics
 from timm import create_model
-import typer
 from loguru import logger
 
 try:
     import wandb
+
     wandb_available = True
 except ImportError:
     wandb_available = False
@@ -46,16 +31,10 @@ os.makedirs(log_dir, exist_ok=True)
 logger.add(os.path.join(log_dir, "train.log"), rotation="1 MB", level="INFO", format="{time} {level} {message}")
 
 
-def train(model, optimizer, criterion, num_epochs=10, name="CNN",use_wandb=False):
+def train(model, optimizer, criterion, num_epochs=10, name="CNN", use_wandb=False):
     """Train the CNN model"""
-    out_dict = {
-        'name': name,
-        'train_acc': [],
-        'test_acc': [],
-        'train_loss': [],
-        'test_loss': []
-    }
-    for epoch in tqdm(range(num_epochs), unit='epoch'):
+    out_dict = {"name": name, "train_acc": [], "test_acc": [], "train_loss": [], "test_loss": []}
+    for epoch in tqdm(range(num_epochs), unit="epoch"):
         logger.info(f"Starting epoch {epoch + 1}/{num_epochs}")
         model.train()
         # For each epoch
@@ -79,20 +58,28 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN",use_wandb=False
             predicted = output.argmax(1)
             train_correct += (target == predicted).sum().cpu().item()
 
-        out_dict['train_acc'].append(train_correct / len(trainset))
-        out_dict['train_loss'].append(np.mean(train_loss))
+        out_dict["train_acc"].append(train_correct / len(trainset))
+        out_dict["train_loss"].append(np.mean(train_loss))
 
-        logger.info(f"Epoch {epoch + 1}/{num_epochs}: Train Loss: {np.mean(train_loss):.3f}, Train Accuracy: {out_dict['train_acc'][-1] * 100:.1f}%")
+        logger.info(
+            f"Epoch {epoch + 1}/{num_epochs}: Train Loss: {np.mean(train_loss):.3f}, Train Accuracy: {out_dict['train_acc'][-1] * 100:.1f}%"
+        )
 
         if wandb_available and use_wandb:
-            wandb.log({"epoch": epoch + 1, "train_loss": np.mean(train_loss), "train_accuracy": out_dict['train_acc'][-1] * 100})
+            wandb.log(
+                {
+                    "epoch": epoch + 1,
+                    "train_loss": np.mean(train_loss),
+                    "train_accuracy": out_dict["train_acc"][-1] * 100,
+                }
+            )
 
         # Save the model and visualizations
         if epoch == num_epochs - 1:
             # File and Directory Paths
             model_dir = "models"
             metrics_plot_path = os.path.join("reports", "figures", "metrics.png")
-            
+
             # Create Directories if They Don't Exist
             os.makedirs(model_dir, exist_ok=True)
             os.makedirs(os.path.dirname(metrics_plot_path), exist_ok=True)
@@ -109,6 +96,7 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN",use_wandb=False
 
     return out_dict
 
+
 @app.command()
 def main(
     num_epochs: int = typer.Option(2, help="Number of epochs for training."),
@@ -117,13 +105,17 @@ def main(
     model_name: str = typer.Option("Pretrained", help="Name of the model."),
     device_type: str = typer.Option(None, help="Device to run training (e.g., 'cuda', 'cpu', 'mps')."),
     pretrained: str = typer.Option("True", help="Use a pre-trained model."),
-    use_wandb: str = typer.Option("False", help="Enable or disable logging to Weights and Biases.")
+    use_wandb: str = typer.Option("False", help="Enable or disable logging to Weights and Biases."),
 ):
     """Main CLI entry point for training the CNN model."""
     logger.info("Starting training script")
-    print("Using CUDA" if torch.cuda.is_available() else "Using MPS" if torch.backends.mps.is_available() else "Using CPU")
+    print(
+        "Using CUDA" if torch.cuda.is_available() else "Using MPS" if torch.backends.mps.is_available() else "Using CPU"
+    )
     global device
-    device = torch.device(device_type or ('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'))
+    device = torch.device(
+        device_type or ("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+    )
 
     global trainset, train_loader, test_loader
     trainset = data_loader(train=True)
@@ -135,8 +127,7 @@ def main(
     logger.info(f"Using pretrained model: {pretrained}")
 
     if pretrained == "True":
-        model = create_model('mobilenetv3_small_050.lamb_in1k', pretrained=True)
-        in_features = model.get_classifier().in_features
+        model = create_model("mobilenetv3_small_050.lamb_in1k", pretrained=True)
         model.reset_classifier(num_classes=2)
         model.to(device)
         logger.info("Initialized pretrained model")
@@ -146,13 +137,16 @@ def main(
 
     if wandb_available and use_wandb == "True":
         try:
-            wandb.init(project="xray", config={
-                "model_name": model_name,
-                "batch_size": batch_size,
-                "learning_rate": learning_rate,
-                "num_epochs": num_epochs,
-                "device": device.type
-            })
+            wandb.init(
+                project="xray",
+                config={
+                    "model_name": model_name,
+                    "batch_size": batch_size,
+                    "learning_rate": learning_rate,
+                    "num_epochs": num_epochs,
+                    "device": device.type,
+                },
+            )
         except wandb.errors.UsageError as e:
             logger.warning(f"Failed to initialize wandb: {e}. Proceeding without wandb.")
             use_wandb = False
@@ -160,11 +154,19 @@ def main(
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     loss_fn = nn.CrossEntropyLoss()
     logger.info("Starting training")
-    train(model=model, optimizer=optimizer, criterion=loss_fn, num_epochs=num_epochs, name=model_name, use_wandb=use_wandb == "True")
+    train(
+        model=model,
+        optimizer=optimizer,
+        criterion=loss_fn,
+        num_epochs=num_epochs,
+        name=model_name,
+        use_wandb=use_wandb == "True",
+    )
     logger.info("Training complete")
 
     if wandb_available and use_wandb:
         wandb.finish()
+
 
 if __name__ == "__main__":
     app()

@@ -11,7 +11,7 @@ The goal of the project is to use a dataset of chest X-ray images to create an i
 
 ### Framework
 
-The framework which that we chose to use to complete the project is the [PyTorch Image Models](https://github.com/rwightman/pytorch-image-models) from Hugging Face. This framework will be used to gain access to a plethora of pre-trained image models to apply to our data. To increase the performance for our specific dataset, we will fine tune the pre-trained model for our dataset. 
+The framework which that we chose to use to complete the project is the [PyTorch Image Models](https://github.com/rwightman/pytorch-image-models) from Hugging Face. This framework will be used to gain access to a plethora of pre-trained image models to apply to our data. To increase the performance for our specific dataset, we will fine tune the pre-trained model for our dataset.
 
 
 ### Data
