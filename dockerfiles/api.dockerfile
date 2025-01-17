@@ -1,3 +1,5 @@
+FROM python:3.11-slim
+
 # Expose the port to match Google Cloud Run's requirements
 EXPOSE $PORT
 
