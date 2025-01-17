@@ -142,6 +142,13 @@ will check the repositories and the code to verify your answers.
 > *package to do ... and ... in our project*.
 >
 > Answer:
+> We used the Pytorch Image Models (timm) deep-learning library for our project as it aligned with our objectives and requirements, 
+> as it has a high variety of available pre-trained models that we could choose from. From this we used the pretrained model  
+> "mobilenetv3_small_050.lamb_in1k"  which is a image classification model trained on Image-Net1k. We compared this model to a
+> simple baseline convolutional neural network that we built using pytorch. The advantage of using the timm library is the easy 
+> integration of the pretrained models and the ease of changing to a different model from the available library. Using the model,
+> the X-Ray images from our dataset were analysed for signs of pneumonia infections and classified in the positive or negative 
+> class.
 
 --- question 3 fill here ---
 
@@ -242,8 +249,11 @@ will check the repositories and the code to verify your answers.
 > *addition to the main branch. To merge code we ...*
 >
 > Answer:
-
---- question 9 fill here ---
+> We did include branches in some cases. For example we used branches when working on specific features that we 
+> were unsure about including at the time of workin on it, so we could avoid dealing with any merging issues, during our work on
+> the feature. We did not include pull requests when merging our work to the main branch since a lot of the work was done while 
+> working in a group setting, which made it possible to review and talk about our changes in person. Additionally, we worked with 
+> with pull requests since we implemented a dependabot that issued pull requests for use-cases like python library versioning.
 
 ### Question 10
 
@@ -294,7 +304,12 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 12 fill here ---
+> We used typer to manage the configuration of our hyperparameters for experiments. We only found out afterwards that 
+> integrating both Hydra and Typer does not make as much sense and since the work for Typer was already done and some of 
+> our code was not properly setup for Hydra (to work properly with pointers) we decided to stick with the already completed
+> Typer workflow (after asking the TAs in Slack).
+
+> Example: python evaluate.py --model-name Pretrained --batch-size 64 --device-type cpu --pretrained True
 
 ### Question 13
 
