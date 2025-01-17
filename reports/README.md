@@ -186,7 +186,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 5 fill here ---
+To create an efficient structure for our ML project, we utilized the cookiecutter library, specifically the template provided by this course. Most parts of the template remained unchanged, however, we added some new folders to enhance the project's functionality. First, we included a logs folder, where all the log files from the training and evaluation processes are saved. Additionally, we introduced an experiments folder to store experiment-related files, such as coverage.txt, which provides details about the number of lines tested by our unit tests. Lastly, a wandb file was added to the structure, containing information about the runs logged on the Weights and Biases (wandb) framework.
 
 ### Question 6
 
