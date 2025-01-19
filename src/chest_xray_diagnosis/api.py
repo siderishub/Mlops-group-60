@@ -4,7 +4,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from timm import create_model
 from PIL import Image
 import io
-from data import get_transform
+from src.chest_xray_diagnosis.data import get_transform  # Use absolute import based on your structure
 
 # Initialize FastAPI app
 app = FastAPI()
