@@ -437,7 +437,11 @@ Example: python evaluate.py --model-name Pretrained --batch-size 64 --device-typ
 >
 > Answer:
 
---- question 22 fill here ---
+After pushing our Docker container to the Artifact Registry, we successfully trained our model using Vertex AI. To achieve this, we created a vertexai_config.yaml file, which is included in the configs folder. This file specifies the machine type required for training—n1-highmem-2 (CPU)—as we observed during earlier exercises that our model could be trained locally on a CPU. Hence, the job could be accomplished with fewer resources. In addition, we specified the number of replicas (set to 1) and provided the path to the Docker image stored in the cloud. To submit the job to Vertex AI, we used the following command:
+
+gcloud ai custom-jobs create --region=europe-west1 --display-name=training --config=vertexai_config.yaml
+
+We monitored the training process by streaming logs, which allowed us to track the performance and progress of the job. One observation was that the training process on Vertex AI was somewhat slow, as the initial setup of the service during the first run was time-consuming. The reason we chose Vertex AI instead of a VM is that we found this process to be more straightforward.
 
 ## Deployment
 
