@@ -83,7 +83,7 @@ will check the repositories and the code to verify your answers.
 * [ ] Add a continues workflow that triggers when changes to the model registry is made (M19)
 * [x] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
 * [ ] Create a trigger workflow for automatically building your docker images (M21)
-* [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
+* [x] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [x] Create a FastAPI application that can do inference using your model (M22)
 * [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
 * [ ] Write API tests for your application and setup continues integration for these (M24)
@@ -117,9 +117,8 @@ will check the repositories and the code to verify your answers.
 > **Enter the group number you signed up on <learn.inside.dtu.dk>**
 >
 > Answer:
-> group 60
 
---- question 1 fill here ---
+Group 60
 
 ### Question 2
 > **Enter the study number for each member in the group**
@@ -130,9 +129,8 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 >
->s242804, s242850, s200513
 
---- question 2 fill here ---
+s242804, s242850, s200513
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -145,20 +143,18 @@ will check the repositories and the code to verify your answers.
 > *package to do ... and ... in our project*.
 >
 > Answer:
-> We used the Pytorch Image Models (timm) deep-learning library for our project as it aligned with our objectives and requirements,
-> as it has a high variety of available pre-trained models that we could choose from. From this we used the pretrained model
-> "mobilenetv3_small_050.lamb_in1k"  which is a image classification model trained on Image-Net1k. We compared this model to a
-> simple baseline convolutional neural network that we built using pytorch. The advantage of using the timm library is the easy
-> integration of the pretrained models and the ease of changing to a different model from the available library. Using the model,
-> the X-Ray images from our dataset were analysed for signs of pneumonia infections and classified in the positive or negative
-> class.
 
---- question 3 fill here ---
+We used the Pytorch Image Models (timm) deep-learning library for our project as it aligned with our objectives and requirements,
+as it has a high variety of available pre-trained models that we could choose from. From this we used the pretrained model
+"mobilenetv3_small_050.lamb_in1k"  which is a image classification model trained on Image-Net1k. We compared this model to a
+simple baseline convolutional neural network that we built using pytorch. The advantage of using the timm library is the easy
+integration of the pretrained models and the ease of changing to a different model from the available library. Using the model,
+the X-Ray images from our dataset were analysed for signs of pneumonia infections and classified in the positive or negative
+class.
 
 ## Coding environment
 
-> In the following section we are interested in learning more about you local development environment. This includes
-> how you managed dependencies, the structure of your code and how you managed code quality.
+In the following section we are interested in learning more about you local development environment. This includes how you managed dependencies, the structure of your code and how you managed code quality.
 
 ### Question 4
 
@@ -172,13 +168,8 @@ will check the repositories and the code to verify your answers.
 > *complete copy of our development environment, one would have to run the following commands*
 >
 > Answer:
-> We used conda (or miniconda) to manage our dependencies for python. A requirements.txt file can be found in the repository.
-> These two commands are enough to get the libraries needed for the python environment : conda create --name mlops python=3.11 (firstly create an environment, we used python 3.11)
-> pip install -r requirements.txt (and then install all the libraries listed in the requirements.txt). The requirements.txt has the libraries needed to create the data, train the model and evaluate it.
-> There are some more files with requirements lists for some more stuff we did like the requirements_dev for stuff like linting with ruff and the requirements_test for stuff related to testing like pytest.
-> Also Dvc was used for data management so dvc pull can be used to get the data. the processed data are also saved in the dvc so running the data.py is
 
---- question 4 fill here ---
+We used conda (or miniconda) to manage our dependencies for python. A requirements.txt file can be found in the repository. These two commands are enough to get the libraries needed for the python environment : conda create --name mlops python=3.11 (firstly create an environment, we used python 3.11) pip install -r requirements.txt (and then install all the libraries listed in the requirements.txt). The requirements.txt has the libraries needed to create the data, train the model and evaluate it. There are some more files with requirements lists for some more stuff we did like the requirements_dev for stuff like linting with ruff and the requirements_test for stuff related to testing like pytest. Also Dvc was used for data management so dvc pull can be used to get the data. the processed data are also saved in the dvc so running the data.py is
 
 ### Question 5
 
@@ -208,18 +199,12 @@ To create an efficient structure for our ML project, we utilized the cookiecutte
 > *concepts are important in larger projects because ... . For example, typing ...*
 >
 > Answer:
-> We followed pep8 guidelines for code quality which were also enforced with ruff. Also for linting a pre-commit was used which has stuff like removing whitespaces and such.
-> Also we tried to follow coding practices as snake_case for functions and other "standard rules" which are used typically in python code so that it would be more easily readable to people familiar with python code.
-> Practices like these are essential for code readability, understanding and for code maintenance to be easier. For projects like this one which I would say is supposed to mimic a research project it creates an easier
-> way for people to meddle and do changes in the code. For bigger projects and companies maintenance and the ability to do quick code changes is essential, these practices help achieve that.
->
 
---- question 6 fill here ---
+We followed pep8 guidelines for code quality which were also enforced with ruff. Also for linting a pre-commit was used which has stuff like removing whitespaces and such. Also we tried to follow coding practices as snake_case for functions and other "standard rules" which are used typically in python code so that it would be more easily readable to people familiar with python code. Practices like these are essential for code readability, understanding and for code maintenance to be easier. For projects like this one which I would say is supposed to mimic a research project it creates an easier way for people to meddle and do changes in the code. For bigger projects and companies maintenance and the ability to do quick code changes is essential, these practices help achieve that.
 
 ## Version control
 
-> In the following section we are interested in how version control was used in your project during development to
-> corporate and increase the quality of your code.
+In the following section we are interested in how version control was used in your project during development to corporate and increase the quality of your code.
 
 ### Question 7
 
@@ -262,11 +247,8 @@ To create an efficient structure for our ML project, we utilized the cookiecutte
 > *addition to the main branch. To merge code we ...*
 >
 > Answer:
-> We did include branches in some cases. For example we used branches when working on specific features that we
-> were unsure about including at the time of workin on it, so we could avoid dealing with any merging issues, during our work on
-> the feature. We did not include pull requests when merging our work to the main branch since a lot of the work was done while
-> working in a group setting, which made it possible to review and talk about our changes in person. Additionally, we worked with
-> with pull requests since we implemented a dependabot that issued pull requests for use-cases like python library versioning.
+
+We did include branches in some cases. For example we used branches when working on specific features that we were unsure about including at the time of workin on it, so we could avoid dealing with any merging issues, during our work on the feature. We did not include pull requests when merging our work to the main branch since a lot of the work was done while working in a group setting, which made it possible to review and talk about our changes in person. Additionally, we worked with pull requests since we implemented a dependabot that issued pull requests for use-cases like python library versioning.
 
 ### Question 10
 
@@ -317,12 +299,9 @@ To create an efficient structure for our ML project, we utilized the cookiecutte
 >
 > Answer:
 
-> We used typer to manage the configuration of our hyperparameters for experiments. We only found out afterwards that
-> integrating both Hydra and Typer does not make as much sense and since the work for Typer was already done and some of
-> our code was not properly setup for Hydra (to work properly with pointers) we decided to stick with the already completed
-> Typer workflow (after asking the TAs in Slack).
+We used typer to manage the configuration of our hyperparameters for experiments. We only found out afterwards that integrating both Hydra and Typer does not make as much sense and since the work for Typer was already done and some of our code was not properly setup for Hydra (to work properly with pointers) we decided to stick with the already completed Typer workflow (after asking the TAs in Slack).
 
-> Example: python evaluate.py --model-name Pretrained --batch-size 64 --device-type cpu --pretrained True
+Example: python evaluate.py --model-name Pretrained --batch-size 64 --device-type cpu --pretrained True
 
 ### Question 13
 
