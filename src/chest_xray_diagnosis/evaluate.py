@@ -9,14 +9,18 @@ from model import CNN_Baseline
 from timm import create_model
 import typer
 from loguru import logger
+from datetime import datetime
 
 app = typer.Typer(help="Evaluate a model")
+# Get current date for logging and file naming
+current_date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 log_dir = "logs"
-os.makedirs(log_dir, exist_ok=True)
+evaluate_log_dir = os.path.join(log_dir, "evaluate_logs")
+os.makedirs(evaluate_log_dir, exist_ok=True)
 
-logger.add(os.path.join(log_dir, "evaluate.log"), rotation="1 MB", level="INFO", format="{time} {level} {message}")
-
+log_file = os.path.join(evaluate_log_dir, f"evaluate_log_{current_date}.log")
+logger.add(log_file, rotation="1 MB", level="INFO", format="{time} {level} {message}")
 
 def evaluate(model, criterion, test_loader, device, name="Pretrained"):
     out_dict_test = {"name": name, "test_acc": [], "test_loss": []}
@@ -35,7 +39,7 @@ def evaluate(model, criterion, test_loader, device, name="Pretrained"):
     out_dict_test["test_acc"].append(test_correct / len(testset))
     out_dict_test["test_loss"].append(np.mean(test_loss))
     logger.info(f"Test Loss: {np.mean(test_loss):.3f}	 Test Accuracy: {out_dict_test['test_acc'][-1] * 100:.1f}%")
-    confusion_matrix_path = os.path.join("reports", "figures", "Confusion-Matrix.png")
+    confusion_matrix_path = os.path.join("reports", "figures", f"Confusion-Matrix_{current_date}.png")
     plot_confusion_matrix(
         model, test_loader, device, class_names=["Pneumonia", "Normal"], filename=confusion_matrix_path
     )

@@ -8,6 +8,7 @@ from model import CNN_Baseline
 from visualize import plot_metrics
 from data import data_loader
 import typer
+from datetime import datetime
 
 from timm import create_model
 from loguru import logger
@@ -21,19 +22,27 @@ except ImportError:
     logger.warning("Weights and Biases (wandb) not installed. Proceeding without it.")
 
 
+# Get current date for logging and file naming
+current_date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
 # Initialize Typer app
 app = typer.Typer(help="Train a model")
 
 # Ensure logs folder exists
 log_dir = "logs"
-os.makedirs(log_dir, exist_ok=True)
+train_log_dir = os.path.join(log_dir, "train_logs")
+os.makedirs(train_log_dir, exist_ok=True)
 
-logger.add(os.path.join(log_dir, "train.log"), rotation="1 MB", level="INFO", format="{time} {level} {message}")
+log_file = os.path.join(train_log_dir, f"train_log_{current_date}.log")
+logger.add(log_file, rotation="1 MB", level="INFO", format="{time} {level} {message}")
 
-
-def train(model, optimizer, criterion, num_epochs=10, name="CNN", use_wandb=False):
+def train(model, optimizer, criterion, num_epochs=10, name="CNN", use_wandb=False, hyperparams = None):
     """Train the CNN model"""
     out_dict = {"name": name, "train_acc": [], "test_acc": [], "train_loss": [], "test_loss": []}
+
+    logger.info("Hyperparameters used:")
+    logger.info(hyperparams)
+
     for epoch in tqdm(range(num_epochs), unit="epoch"):
         logger.info(f"Starting epoch {epoch + 1}/{num_epochs}")
         model.train()
@@ -78,14 +87,16 @@ def train(model, optimizer, criterion, num_epochs=10, name="CNN", use_wandb=Fals
         if epoch == num_epochs - 1:
             # File and Directory Paths
             model_dir = "models"
-            metrics_plot_path = os.path.join("reports", "figures", "metrics.png")
+            plots_dir = "plots"
+            os.makedirs(plots_dir, exist_ok=True)
+            metrics_plot_path = os.path.join(plots_dir, "metrics.png")
 
             # Create Directories if They Don't Exist
             os.makedirs(model_dir, exist_ok=True)
             os.makedirs(os.path.dirname(metrics_plot_path), exist_ok=True)
 
             # Save Model
-            model_path = os.path.join(model_dir, f"{name}.pt")
+            model_path = os.path.join(model_dir, f"{name}_{current_date}.pt")
             torch.save(model.state_dict(), model_path)
 
             # Save Visualizations
@@ -135,17 +146,21 @@ def main(
         model = CNN_Baseline(num_classes=2).to(device)
         logger.info("Initialized baseline model")
 
+    hyperparams = {
+        "num_epochs": num_epochs,
+        "batch_size": batch_size,
+        "learning_rate": learning_rate,
+        "model_name": model_name,
+        "device": device.type,
+        "pretrained": pretrained,
+    }
+
     if wandb_available and use_wandb == "True":
         try:
             wandb.init(
                 project="xray",
-                config={
-                    "model_name": model_name,
-                    "batch_size": batch_size,
-                    "learning_rate": learning_rate,
-                    "num_epochs": num_epochs,
-                    "device": device.type,
-                },
+                config=hyperparams,
+                name=model_name
             )
         except wandb.errors.UsageError as e:
             logger.warning(f"Failed to initialize wandb: {e}. Proceeding without wandb.")
@@ -154,6 +169,8 @@ def main(
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     loss_fn = nn.CrossEntropyLoss()
     logger.info("Starting training")
+
+
     train(
         model=model,
         optimizer=optimizer,
@@ -161,6 +178,7 @@ def main(
         num_epochs=num_epochs,
         name=model_name,
         use_wandb=use_wandb == "True",
+        hyperparams=hyperparams
     )
     logger.info("Training complete")
 

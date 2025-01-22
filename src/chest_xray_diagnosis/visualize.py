@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import torch
 from sklearn.metrics import confusion_matrix
+from datetime import datetime
 
 
 def plot_metrics(out_dicts, filename=""):
@@ -17,7 +18,7 @@ def plot_metrics(out_dicts, filename=""):
             label=f'{out_dict["name"]} Train Accuracy',
             marker="o",
             color=col,
-            linestyle="dashed",
+            linestyle="solid",
         )
         # ax1.plot(epochs, [x*100 for x in out_dict['test_acc']], label=f'{out_dict["name"]} Test Accuracy', marker='o', color=col)
     ax1.set_title("Accuracy over Epochs")
@@ -35,7 +36,7 @@ def plot_metrics(out_dicts, filename=""):
             label=f'{out_dict["name"]} Train Loss',
             marker="o",
             color=col,
-            linestyle="dashed",
+            linestyle='solid',
         )
         # ax2.plot(epochs, out_dict['test_loss'], label=f'{out_dict["name"]} Test Loss', marker='x', color=col)
     ax2.set_title("Loss over Epochs")
@@ -50,8 +51,9 @@ def plot_metrics(out_dicts, filename=""):
 
     # Save plot if specified
     if filename:
+        current_date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = filename.replace(".png", f"_{current_date}.png")
         plt.savefig(filename)
-
     plt.close()
 
 
@@ -79,6 +81,7 @@ def plot_confusion_matrix(model, test_loader, device, class_names, filename=""):
     plt.title("Confusion Matrix")
 
     if filename:
+        current_date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = filename.replace(".png", f"_{current_date}.png")
         plt.savefig(filename)
-
     plt.close()
