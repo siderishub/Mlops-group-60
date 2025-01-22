@@ -13,3 +13,4 @@ Pillow==10.4.0
 timm==1.0.13
 loguru==0.7.3
 prometheus-client==0.21.1
+python-multipart==0.0.20
