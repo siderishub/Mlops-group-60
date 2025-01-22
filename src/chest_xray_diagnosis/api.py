@@ -5,9 +5,16 @@ from timm import create_model
 from PIL import Image
 import io
 from src.chest_xray_diagnosis.data import get_transform  # Use absolute import based on your structure
+from prometheus_client import Counter, Summary, make_asgi_app
+
+# Define Prometheus metrics
+error_counter = Counter("prediction_error", "Number of prediction errors")
+request_counter = Counter("prediction_requests", "Number of prediction requests")
+review_summary = Summary("review_length_summary", "Review length summary")
 
 # Initialize FastAPI app
 app = FastAPI()
+app.mount("/metrics", make_asgi_app())
 
 # Device setup
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -54,6 +61,8 @@ async def predict(file: UploadFile = File(...)):
     Input: An image file
     Output: Predicted class and probabilities
     """
+    """Predict sentiment of the input text."""
+    request_counter.inc()
     try:
         # Read the uploaded image
         image_bytes = await file.read()
@@ -73,4 +82,7 @@ async def predict(file: UploadFile = File(...)):
             "probabilities": probabilities.tolist(),  # Convert numpy array to list
         }
     except Exception as e:
+        error_counter.inc()
         raise HTTPException(status_code=500, detail=f"Prediction error: {e}")
+        #raise HTTPException(status_code=500, detail=str(e)) from e
+
