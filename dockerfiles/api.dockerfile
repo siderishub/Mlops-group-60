@@ -3,8 +3,7 @@ FROM python:3.11-slim
 # Expose the port to match Google Cloud Run's requirements
 EXPOSE $PORT
 
-# Set the working directory
-WORKDIR /app
+WORKDIR /
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
@@ -16,9 +15,12 @@ RUN apt-get update && apt-get install -y \
 # Install Python dependencies
 RUN pip install fastapi uvicorn torch torchvision timm pillow
 
+RUN pip install python-multipart
+
 # Copy application files
-COPY src/api.py /app/api.py
-COPY models/Pretrained.pt /app/models/Pretrained.pt
+COPY src/chest_xray_diagnosis/data.py src/chest_xray_diagnosis/data.py
+COPY src/chest_xray_diagnosis/api.py src/chest_xray_diagnosis/api.py
+COPY models/Pretrained.pt models/Pretrained.pt
 
 # Set the command to run the FastAPI app
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "$PORT"]
+CMD exec uvicorn src.chest_xray_diagnosis.api:app --port $PORT --host 0.0.0.0 --workers 1
