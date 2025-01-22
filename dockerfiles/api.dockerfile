@@ -12,10 +12,10 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-RUN pip install fastapi uvicorn torch torchvision timm pillow
+COPY requirements_api.txt requirements_api.txt
 
-RUN pip install python-multipart
+# Install Python dependencies
+RUN pip install -r requirements_api.txt --no-cache-dir --verbose
 
 # Copy application files
 COPY src/chest_xray_diagnosis/data.py src/chest_xray_diagnosis/data.py

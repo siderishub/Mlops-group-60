@@ -15,5 +15,18 @@ steps:
     'push',
     'europe-west1-docker.pkg.dev/mlops60-448009/mlopsgroup60/mlopsapi'
   ]
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'Deploy to Cloud Run'
+  args: [
+    'run',
+    'deploy',
+    'mlopsapi',
+    '--image',
+    'europe-west1-docker.pkg.dev/mlops60-448009/mlopsgroup60/mlopsapi',
+    '--region',
+    'europe-west1',
+    '--platform',
+    'managed',
+  ]
 options:
   logging: CLOUD_LOGGING_ONLY
