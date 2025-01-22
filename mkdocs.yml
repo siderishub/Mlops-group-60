@@ -1,0 +1,98 @@
+site_name: MkDocs PPtimm for MLOPS
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  language: en
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline 
+        name: Switch to dark mode
+      primary: teal
+      accent: purple 
+    - scheme: slate 
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode    
+      primary: teal
+      accent: purple
+
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra:
+  social: 
+    - icon: fontawesome/brands/github
+      link: https://github.com/siderishub/Mlops-group-60
+
+nav:
+  - Home: index.md
+  - Model & Training: modeltraining.md
+  - API: api.md
+
+
+  # - Chest X-ray Diagnosis: 
+  #   - Introduction: chest_xray_diagnosis/introduction.md
+  #   - Data: chest_xray_diagnosis/data.md
+  #   - Model: chest_xray_diagnosis/model.md
+  #   - Evaluation: chest_xray_diagnosis/evaluation.md
+  #   - Conclusion: chest_xray_diagnosis/conclusion.md
+  # - About: about.md
+  # - Contact: contact.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_root_heading: true
+            show_source: true
+
+# site_name: chest_xray_diagnosis
+# site_author: Mlops-group-60
+
+
+# theme:
+#   language: en
+#   name: material
+#   features:
+#     - content.code.copy
+#     - content.code.annotate
+
+# plugins:
+#   - search
+#   - mkdocstrings:
+#       handlers:
+#         python:
+#           options:
+#             show_root_heading: true
+#             separate_signature: true
+#             show_signature_annotations: true
+
+# nav:
+#   - Home: index.md
