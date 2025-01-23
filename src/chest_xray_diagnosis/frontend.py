@@ -17,12 +17,10 @@ if img_data is not None:
     st.image(uploaded_img, caption='Provided Image')
 
     # Send the image to FastAPI endpoint
-    # ----------------------------------
-    # IMPORTANT: replace http://localhost:8000 with your actual FastAPI URL and port
     with st.spinner('Predicting...'):
         try:
             files = {"file": (img_data.name, img_data, img_data.type)}
-            response = requests.post("http://localhost:8000/predict/", files=files)
+            response = requests.post("https://mlopsapi-31319237799.europe-west1.run.app/", files=files)
 
             if response.status_code == 200:
                 result = response.json()
