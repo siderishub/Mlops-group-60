@@ -20,7 +20,7 @@ if img_data is not None:
     with st.spinner('Predicting...'):
         try:
             files = {"file": (img_data.name, img_data, img_data.type)}
-            response = requests.post("https://mlopsapi-31319237799.europe-west1.run.app/", files=files)
+            response = requests.post("https://mlopsapi-31319237799.europe-west1.run.app/predict/", files=files)
 
             if response.status_code == 200:
                 result = response.json()
