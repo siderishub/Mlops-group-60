@@ -4,7 +4,8 @@ steps:
   args:
     - '-c'
     - |
-      pip install dvc[all]
+      pip install dvc
+      pip install dvc-gs
 - name: 'python:3.9'
   entrypoint: 'bash'
   args:
