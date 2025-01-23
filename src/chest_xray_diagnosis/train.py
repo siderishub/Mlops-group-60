@@ -137,6 +137,9 @@ def main(
     logger.info(f"Device selected: {device}")
     logger.info(f"Using pretrained model: {pretrained}")
 
+    if pretrained == "False":
+        model_name = "Baseline"
+
     if pretrained == "True":
         model = create_model("mobilenetv3_small_050.lamb_in1k", pretrained=True)
         model.reset_classifier(num_classes=2)
@@ -159,8 +162,9 @@ def main(
         try:
             wandb.init(
                 project="xray",
+                entity="tassios1999-danmarks-tekniske-universitet-dtu",
                 config=hyperparams,
-                name=model_name
+                name=f"{model_name}_{current_date}"
             )
         except wandb.errors.UsageError as e:
             logger.warning(f"Failed to initialize wandb: {e}. Proceeding without wandb.")
