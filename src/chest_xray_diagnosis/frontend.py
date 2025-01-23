@@ -13,8 +13,10 @@ prediction = None
 
 if img_data is not None:
     # Display the uploaded image
-    uploaded_img = Image.open(img_data)
+    uploaded_img = Image.open(img_data) 
     st.image(uploaded_img, caption='Provided Image')
+    
+    img_data.seek(0)
 
     # Send the image to FastAPI endpoint
     with st.spinner('Predicting...'):
