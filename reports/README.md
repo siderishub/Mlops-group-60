@@ -539,7 +539,9 @@ We monitored the training process by streaming logs, which allowed us to track t
 >
 > Answer:
 
---- question 28 fill here ---
+We created a frontend for our API, since we thought it would be a nice and easy way to make the API accessible. Setting up the frontend was done using Streamlit and was a very nice process, since it is very intuative to use and easy to understand. The frontend allows the user to upload an X-Ray chest image, like from the dataset, and quickly get a "diagnosis" by the pretrained model stating wether pneunomia was detected or not. We also used streamlit community cloud to make the frontend accessible using the following [https://mlops-group-60-iapprrdd7xn3hmfg8lzazfv.streamlit.app](https://mlops-group-60-iapprrdd7xn3hmfg8lzazfv.streamlit.app).
+
+Furthermore we created Documentation using MkDocs to gain some experience using it and have some basic documentation for our codebase. The documentation can be accessed using this [https://siderishub.github.io/Mlops-group-60/](https://siderishub.github.io/Mlops-group-60/).
 
 ### Question 29
 
@@ -588,4 +590,10 @@ We monitored the training process by streaming logs, which allowed us to track t
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+
+Student s240828 was in charge of working partially on the basemodel, the api frontend, the documentation, writing parts the report
+working partially on the api and helping with some collaboration.
+
+We used ChatGPT to help us debug our code in cases where we were unfamiliar with error codes or using new packages like Streamlit
+where just a small comment was missing. We partially used GitHub Copilot to write the code but it often was not to useful since 
+it seemed to be unaware of the project structure. 
