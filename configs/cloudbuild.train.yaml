@@ -5,13 +5,8 @@ steps:
     - '-c'
     - |
       pip install dvc
-      pip install dvc-gs
-- name: 'python:3.9'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      dvc pull
+      && pip install dvc-gs
+      && dvc pull
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build container image'
   args: [
