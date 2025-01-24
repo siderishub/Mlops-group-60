@@ -130,7 +130,7 @@ Group 60
 > Answer:
 >
 
-s242804, s242850, s200513, s243216
+s242804, s242850, s200513, s243216, s241878
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -457,8 +457,8 @@ We monitored the training process by streaming logs, which allowed us to track t
 > *to the API to make it more ...*
 >
 > Answer:
-Yes we did manage to write the API. We used FastAPI as taught in in M22. The API includes a /predict/ endpoint for image classification. It processes an uploaded image from a user by reading it, applying test-time transformations  and running inference using our pre trained model.To improve functionality, we added Prometheus metrics to monitor mistakes and requests. We also ensured that the model runs efficiently on GPU or CPU and implemented adequate error handling using HTTP exceptions. Furthermore, we added a /metrics endpoint to expose real-time monitoring data, making the API more robust and production-ready.
 
+--- question 23 fill here ---
 
 ### Question 24
 
@@ -504,7 +504,7 @@ Yes we did manage to write the API. We used FastAPI as taught in in M22. The API
 >
 > Answer:
 
---- question 26 fill here ---
+We worked on implementing some monitoring on the deployed API using google cloud alerts and SLOs similair to what we did in the exercises. With this service we monitor the latency of the requests to the api and check the ratio of requests that go above our latency threshhold. This is to make sure that the responses of the API are quick so the users will quickly get their model predictinos. Furthermore we monitor the amount of requests to the API since we did not work out load testing, so if the amounts of requests increases above our thresshold we will have to check if everything is still working fine. 
 
 ## Overall discussion of project
 
@@ -523,7 +523,7 @@ Yes we did manage to write the API. We used FastAPI as taught in in M22. The API
 >
 > Answer:
 
---- question 27 fill here ---
+We only used about $1 for our general project on the API since our used services were not that expensive. Obviously this will would still be subject to change over time. So our developement as a group was rather inexpensive and we still have some credits left for experimentation. Of course we somehow still learned the hard lesson , from one group member who opened a container with a GPU and forgot to shut it down, watching the credits pour away, so the prophecy from the lecture became true. 
 
 ### Question 28
 
@@ -572,7 +572,13 @@ Furthermore we created Documentation using MkDocs to gain some experience using 
 >
 > Answer:
 
---- question 30 fill here ---
+The biggest challenge in our project was organizing all the various MLOps tools and services into a full working pipeline. Initially, we struggled with setting up everything since each team member had differing amounts of programming and software experience. Also the knowledge on machine and deep learning was uneven so we had to work on this in the beginning to make sure everyone knows where we want this project to go.
+
+Another time-consuming aspect was learning how to properly use and integrate Google Cloud Platform (GCP) services—particularly Vertex AI and Cloud Run. Since most of us had limited experience with these services, we spent some time reviewing official GCP documentation, watching tutorials and experimenting with the services. Other times we struggled a bit since we tried to implement features too late, like working on hydra when we had already used typer for the hyperparameters. Similair we had some challenges when trying to implement lightning after we already had all our training, model and evluation files working so we decided not to refracture everything.
+
+We also ran into challenges with continuous integration (CI) and test coverage. Our codebase grew quickly, and ensuring that the important parts of new functionality was covered by tests took some work, but with the help of the exercise practice it worked well. 
+
+Overall, our biggest takeaway was the importance of proper planning and thinking ahead. By working on each part of the project in smaller steps and working together as a team we were able to integrate the pieces into a full MLOps pipeline successfully.
 
 ### Question 31
 
@@ -591,7 +597,7 @@ Furthermore we created Documentation using MkDocs to gain some experience using 
 > Answer:
 
 
-Student s240828 was in charge of working partially on the basemodel, the api frontend, the documentation, writing parts the report
+Student s241878 was in charge of working partially on the basemodel, the api frontend, the documentation, writing parts the report
 working partially on the api and helping with some collaboration.
 
 We used ChatGPT to help us debug our code in cases where we were unfamiliar with error codes or using new packages like Streamlit
