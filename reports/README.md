@@ -357,7 +357,7 @@ The two images above showcase the logs we saved in the Weights and Biases framew
 > Answer:
 
 Docker was used to containerize what we believe were the most important parts of our application, training and the api.
-We mostly used Docker as an easier way to integrate our code with gcp. Usually it speeds up the process of uploading your infrastucture to have your code containerized so that you can use the images and do it right away. In general the containers can also be used to run the code without any conflicts of any local machine. Both the containers can be build and run locally or uploaded to the cloud with cloudbuild files. There are also triggers which upload the new images to the cloud. for the api a port variable is needed: "docker run mlopsapi:latest --port=8080". For the training although we could add training variables like lr because we have typer in our train.py script we didn't for simplicity.
+We mostly used Docker as an easier way to integrate our code with gcp. Usually it speeds up the process of uploading your infrastucture to have your code containerized so that you can use the images and do it right away. In general the containers can also be used to run the code without any conflicts of any local machine. Both the containers can be build and run locally or uploaded to the cloud with cloudbuild files. There are also triggers which upload the new images to the cloud. for the api a port variable is needed: "docker run mlopsapi:latest --port=8080". For the training although we could add training variables like lr because we have typer in our train.py script we didn't for simplicity. Link to docker files: <https://github.com/siderishub/Mlops-group-60/tree/main/dockerfiles>
 
 ### Question 16
 
