@@ -363,7 +363,9 @@ Example: python evaluate.py --model-name Pretrained --batch-size 64 --device-typ
 >
 > Answer:
 
---- question 16 fill here ---
+When we ran into bugs we sometimes used Breakpoints in Visual Studio Code like in the lecture and step through the code top find the origin of the problems. We also made use of the console logs to quickly print out variable values and check them. Beyond that, we sometimes relied on ChatGPT for clarifications on error messages or hints on how to approach certain bugs, especially when we used unfamiliar libraries. Stack Overflow was also used to check out some error messages to gain some insights and resolutions.
+
+In terms of profiling, we used SnakeViz to check whether there were any huge performance bottlenecks in the data loading or training steps. We didn’t go too deep into optimization because the code ran reasonably fast for our model, but we don’t consider it perfect. But since the model was fairly basic it seemed good enough after we made some improvements on the dataloading when we noticed issues in the profiling. Now the most intense process is the backpropagation which but it still seemed in a ordinary range.
 
 ## Working in the cloud
 
