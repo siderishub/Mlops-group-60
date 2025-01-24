@@ -185,7 +185,7 @@ We used conda (or miniconda) to manage our dependencies for python. A requiremen
 >
 > Answer:
 
-To create an efficient structure for our ML project, we utilized the cookiecutter library, specifically the template provided by this course. Most parts of the template remained unchanged, however, we added some new folders to enhance the project's functionality. First, we included a logs folder, where all the log files from the training and evaluation processes are saved. Additionally, we introduced an experiments folder to store experiment-related files, such as coverage.txt, which provides details about the number of lines tested by our unit tests. Lastly, a wandb file was added to the structure, containing information about the runs logged on the Weights and Biases (wandb) framework.
+To create an efficient structure for our ML project, we utilized the cookiecutter library, specifically the template provided by this course. Most parts of the template remained unchanged, however, we added some new folders to enhance the project's functionality. First, we included a logs folder, where all the log files from the training and evaluation processes are saved. Additionally, we introduced an experiments folder to store experiment-related files, such as coverage.txt, which provides details about the number of lines tested by our unit tests. Furthermore, a wandb folder was added to the structure, containing information about the runs logged on the Weights and Biases (wandb) framewore, and a plots one, in which the produced plots from the experiments are stored. Lastly, a frontent.py is added to the main script files, which includes the code for the frontent creation. 
 
 ### Question 6
 
@@ -333,7 +333,14 @@ Example: python evaluate.py --model-name Pretrained --batch-size 64 --device-typ
 >
 > Answer:
 
---- question 14 fill here ---
+![wandb](figures/wandb.png)
+
+We observed that both of our models achieved satisfactory performance with the initial hyperparameter combinations we used, so we did not conduct many additional experiments. The image above illustrates the metrics we tracked. Since our task involves binary image classification, we focused on monitoring the training loss to ensure it decreases with each epoch and the accuracy, which is crucial for this task. Additionally, we tracked the number of epochs used for each experiment to determine how many epochs were required to achieve optimal performance.
+
+![wandb_log1](figures/wandb_log1.png)
+![wandb_log2](figures/wandb_log2.png)
+
+The two images above showcase the logs we saved in the Weights and Biases framework, which provide the aforementioned information about the training process. These logs also include the hyperparameters used for each experiment. To distinguish between models, it is essential to name them appropriately. We accomplished this by naming the models based on the date and time when the experiments were conducted. From the saved log images, it is evident that we record details such as the number of epochs, batch size, learning rate, the name assigned to the saved model, the device used, and whether a pretrained model is being utilized. One slight peculiarity is the necessity of using the same batch size as specified in the data.py file, which creates the processed images. This ensures there is no mismatch during training.
 
 ### Question 15
 
@@ -397,7 +404,7 @@ In terms of profiling, we used SnakeViz to check whether there were any huge per
 >
 > Answer:
 
---- question 18 fill here ---
+Initially, we attempted to train our uploaded Docker image by activating an n1-standard-4 VM type. However, we encountered difficulties in figuring out how to properly train our Docker image in this setup. To avoid the time-consuming process of opening an instance, cloning the repository, and installing the required dependencies, we decided to utilize the Vertex AI service. In summary, we created a vertexai_config.yaml file to train our image. We chose to use a CPU for this task, as the models we intended to train were not computationally intensive. Further details regarding the utilization of this service are explained in Question 22.
 
 ### Question 19
 
@@ -406,7 +413,9 @@ In terms of profiling, we used SnakeViz to check whether there were any huge per
 >
 > Answer:
 
---- question 19 fill here ---
+![bucket_1](figures/bucket_1.png)
+![bucket_2](figures/bucket_2.png)
+
 
 ### Question 20
 
@@ -415,7 +424,7 @@ In terms of profiling, we used SnakeViz to check whether there were any huge per
 >
 > Answer:
 
---- question 20 fill here ---
+![registry](figures/registry.png)
 
 ### Question 21
 
@@ -424,7 +433,8 @@ In terms of profiling, we used SnakeViz to check whether there were any huge per
 >
 > Answer:
 
---- question 21 fill here ---
+![build](figures/build.png)
+
 
 ### Question 22
 
@@ -443,7 +453,7 @@ After pushing our Docker container to the Artifact Registry, we successfully tra
 
 gcloud ai custom-jobs create --region=europe-west1 --display-name=training --config=vertexai_config.yaml
 
-We monitored the training process by streaming logs, which allowed us to track the performance and progress of the job. One observation was that the training process on Vertex AI was somewhat slow, as the initial setup of the service during the first run was time-consuming. The reason we chose Vertex AI instead of a VM is that we found this process to be more straightforward.
+We monitored the training process by streaming logs, which allowed us to track the performance and progress of the job. One observation was that the training process on Vertex AI was somewhat slow, as the initial setup of the service during the first run was time-consuming. The reason we chose Vertex AI instead of a VM is that we found this process to be more straightforward. 
 
 ## Deployment
 
