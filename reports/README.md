@@ -389,7 +389,17 @@ In terms of profiling, we used SnakeViz to check whether there were any huge per
 >
 > Answer:
 
---- question 17 fill here ---
+- GCP Bucket (Cloud Storage): For storing and retrieving images, model files, and other assets. It provides a secure, highly available, and scalable storage solution.
+
+- GCP SLO and Alerts: These help monitor our service’s performance and reliability against defined service level objectives. Alerts notify us if certain performance or error thresholds are exceeded.
+
+- GCP Cloud Run (Containers): Used to containerize and deploy our web service. It allows us to run containers in a fully managed environment and handle scaling.
+
+- GCP Vertex AI: Provides a unified platform for training and deploying machine learning models. We leveraged it for managing, tuning, and serving our ML models efficiently.
+
+- GCP Artifact Registry: Used to store container images and other build artifacts in a private, secure repository. This helps with version control and integration into CI/CD pipelines.
+
+- GCP Triggers: Integrated into our deployment pipeline to automate tasks whenever code is pushed or updated, ensuring continuous delivery and testing.
 
 ### Question 18
 
