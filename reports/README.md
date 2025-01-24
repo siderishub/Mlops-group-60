@@ -169,7 +169,7 @@ In the following section we are interested in learning more about you local deve
 >
 > Answer:
 
-We used conda (or miniconda) to manage our dependencies for python. A requirements.txt file can be found in the repository. These two commands are enough to get the libraries needed for the python environment : conda create --name mlops python=3.11 (firstly create an environment, we used python 3.11) pip install -r requirements.txt (and then install all the libraries listed in the requirements.txt). The requirements.txt has the libraries needed to create the data, train the model and evaluate it. There are some more files with requirements lists for some more stuff we did like the requirements_dev for stuff like linting with ruff and the requirements_test for stuff related to testing like pytest. Also Dvc was used for data management so dvc pull can be used to get the data. the processed data are also saved in the dvc so running the data.py is
+We used conda (or miniconda) to manage our dependencies for python. A requirements.txt file can be found in the repository. These two commands are enough to get the libraries needed for the python environment : conda create --name mlops python=3.11 (firstly create an environment, we used python 3.11) pip install -r requirements.txt (and then install all the libraries listed in the requirements.txt). The requirements.txt has the libraries needed to create the data, train the model and evaluate it. There are some more files with requirements lists for some more stuff we did like the requirements_dev for stuff like linting with ruff, the requirements_test for stuff related to testing like pytest and the requirements_api for anything necessary to run the api. Also Dvc was used for data management so dvc pull can be used to get the data. The processed data are also saved in the dvc so running the data.py is not necessary.
 
 ### Question 5
 
@@ -185,7 +185,7 @@ We used conda (or miniconda) to manage our dependencies for python. A requiremen
 >
 > Answer:
 
-To create an efficient structure for our ML project, we utilized the cookiecutter library, specifically the template provided by this course. Most parts of the template remained unchanged, however, we added some new folders to enhance the project's functionality. First, we included a logs folder, where all the log files from the training and evaluation processes are saved. Additionally, we introduced an experiments folder to store experiment-related files, such as coverage.txt, which provides details about the number of lines tested by our unit tests. Furthermore, a wandb folder was added to the structure, containing information about the runs logged on the Weights and Biases (wandb) framewore, and a plots one, in which the produced plots from the experiments are stored. Lastly, a frontent.py is added to the main script files, which includes the code for the frontent creation. 
+To create an efficient structure for our ML project, we utilized the cookiecutter library, specifically the template provided by this course. Most parts of the template remained unchanged, however, we added some new folders to enhance the project's functionality. First, we included a logs folder, where all the log files from the training and evaluation processes are saved. Additionally, we introduced an experiments folder to store experiment-related files, such as coverage.txt, which provides details about the number of lines tested by our unit tests. Furthermore, a wandb folder was added to the structure, containing information about the runs logged on the Weights and Biases (wandb) framewore, and a plots one, in which the produced plots from the experiments are stored. Lastly, a frontent.py is added to the main script files, which includes the code for the frontent creation.
 
 ### Question 6
 
@@ -200,7 +200,7 @@ To create an efficient structure for our ML project, we utilized the cookiecutte
 >
 > Answer:
 
-We followed pep8 guidelines for code quality which were also enforced with ruff. Also for linting a pre-commit was used which has stuff like removing whitespaces and such. Also we tried to follow coding practices as snake_case for functions and other "standard rules" which are used typically in python code so that it would be more easily readable to people familiar with python code. Practices like these are essential for code readability, understanding and for code maintenance to be easier. For projects like this one which I would say is supposed to mimic a research project it creates an easier way for people to meddle and do changes in the code. For bigger projects and companies maintenance and the ability to do quick code changes is essential, these practices help achieve that.
+We followed pep8 guidelines for code quality which were also enforced with ruff. Instead or writing alot of comments code was written in a way that was self explanatory. Also for linting a pre-commit was used which has stuff like removing whitespaces and such. Also we tried to follow coding practices as snake_case for functions and other "standard rules" which are used typically in python code so that it would be more easily readable to people familiar with python code. Practices like these are essential for code readability, understanding and for code maintenance to be easier. For projects like this one which I would say is supposed to mimic a research project it creates an easier way for people to meddle and do changes in the code. For bigger projects and companies maintenance and the ability to do quick code changes is essential, these practices help achieve that.
 
 ## Version control
 
@@ -218,7 +218,7 @@ In the following section we are interested in how version control was used in yo
 >
 > Answer:
 
---- question 7 fill here ---
+Four tests were implemented. Firstly our functions for importing the data was tested and the data itself was checked there, we believed what it would be redundand to check the preprocessing part because it is "checked" when we check the final data. Secondly the two models we have were tested, focusing on the inputs and the outputs of each models. Lastly testing about the api was written, firsly for the endpoinds themselves to check if they behave correctly and secondly a load test( the load test is not in the workflows pipeline).
 
 ### Question 8
 
@@ -233,7 +233,7 @@ In the following section we are interested in how version control was used in yo
 >
 > Answer:
 
---- question 8 fill here ---
+Our code coverage is equal to 66%. It might seem a bit small at first but this is the case for two reasons. Firstly on the data.py (which has the lowest coverage of 42%, all other files are above 90%) file only functions for importing the data was tested and the data itself was checked there, we believed that it would be redundand to check the preprocessing part because it is "checked" when we check the final data. and secondly there are some lines about importing and such which are ignored from our testing because we are checking mostly our functions. 100% code coverage doesn't bring certainty, there are always edge cases and other factors which are not always in mind and can bring doom to a project if we would only rely on unit tests. There is a reason people don't upload code in production on friday.
 
 ### Question 9
 
@@ -248,7 +248,7 @@ In the following section we are interested in how version control was used in yo
 >
 > Answer:
 
-We did include branches in some cases. For example we used branches when working on specific features that we were unsure about including at the time of workin on it, so we could avoid dealing with any merging issues, during our work on the feature. We did not include pull requests when merging our work to the main branch since a lot of the work was done while working in a group setting, which made it possible to review and talk about our changes in person. Additionally, we worked with pull requests since we implemented a dependabot that issued pull requests for use-cases like python library versioning.
+We did include branches in some cases. For example we used branches when working on specific features that we were unsure about including at the time of workin on it, so we could avoid dealing with any merging issues, during our work on the feature. We did not use pull requests that frequently when merging our work to the main branch since a lot of the work was done while working in a group setting, which made it possible to review and talk about our changes in person. Additionally, we worked with pull requests since we implemented a dependabot that issued pull requests for use-cases like python library versioning.
 
 ### Question 10
 
@@ -263,7 +263,7 @@ We did include branches in some cases. For example we used branches when working
 >
 > Answer:
 
---- question 10 fill here ---
+ Dvc was used for data management so dvc pull can be used to get the data. The processed data are also saved in the dvc so running the data.py is not necessary. We sadly had issues while using the version_aware option on our storage, since support for it stopped a while ago by the dvc team we abandoned a version aware version of dvc. This was a sad outcome because we intended to use the versioning scheme to keep track of the dada used in each experiment. The way we implemented dvc was with gpc buckets where all the data before and after processing are saved in the dvc. Thankfully we gained two benefits from dvc, firstly that we don't have the data on our repo and everyone still can have access to them(if they have the right permissions) and secondly that the data was compressed with md5 which helps when downloading it.
 
 ### Question 11
 
@@ -280,7 +280,7 @@ We did include branches in some cases. For example we used branches when working
 >
 > Answer:
 
---- question 11 fill here ---
+We are using continuous integration. Firstly for running our tests, the testing workflow was done in such a way that caching is utilized for the python packages. Specifically for unit testing multiple operating systems and python version were used although we didn't run it like that throuought the whole project time just because we were afraid of passing the 2000 minute limit of the github actions available time. Also we are pulling the data from our dvc because it is needed for some of the tests. To do that we had to also give the keys of a gcp service account to github via saving it as a secret variable to be used in the pipeline. After that a command is used to run the tests and show the coverage statistics. The second workflow "codecheck" is concerned with code formatting. It uses ruff to first check and then format our code. Lastly a workflow about pre-commit was added which runs our precommit functionality like linting. It should also be mentioned that dependabot helped with stuff like updating our python libraries when necessary. We also disables our workflows sometimes also for fear of passing the allowed github actions time. here is a link to one of our workflows <https://github.com/siderishub/Mlops-group-60/actions/workflows/tests.yaml>
 
 ## Running code and tracking experiments
 
@@ -453,7 +453,7 @@ After pushing our Docker container to the Artifact Registry, we successfully tra
 
 gcloud ai custom-jobs create --region=europe-west1 --display-name=training --config=vertexai_config.yaml
 
-We monitored the training process by streaming logs, which allowed us to track the performance and progress of the job. One observation was that the training process on Vertex AI was somewhat slow, as the initial setup of the service during the first run was time-consuming. The reason we chose Vertex AI instead of a VM is that we found this process to be more straightforward. 
+We monitored the training process by streaming logs, which allowed us to track the performance and progress of the job. One observation was that the training process on Vertex AI was somewhat slow, as the initial setup of the service during the first run was time-consuming. The reason we chose Vertex AI instead of a VM is that we found this process to be more straightforward.
 
 ## Deployment
 
@@ -485,7 +485,7 @@ Yes we did manage to write the API. We used FastAPI as taught in in M22 "Request
 > *`curl -X POST -F "file=@file.json"<weburl>`*
 >
 > Answer:
-We managed to deploy model as an application using FastAPI. Initially, we served the model locally to evaluate its functionality. We then used Docker to containerize the program defining dependencies and parameters in a Dockerfile. The container opens a port for GoogleCloud Run. The image contains both the trained model and the API code, with uvicorn serving the FastAPI app. The cloud deployment was done using GoogleCloud run. 
+We managed to deploy model as an application using FastAPI. Initially, we served the model locally to evaluate its functionality. We then used Docker to containerize the program defining dependencies and parameters in a Dockerfile. The container opens a port for GoogleCloud Run. The image contains both the trained model and the API code, with uvicorn serving the FastAPI app. The cloud deployment was done using GoogleCloud run.
 
 ### Question 25
 
@@ -515,7 +515,7 @@ We managed to deploy model as an application using FastAPI. Initially, we served
 >
 > Answer:
 
-We worked on implementing some monitoring on the deployed API using google cloud alerts and SLOs similair to what we did in the exercises. With this service we monitor the latency of the requests to the api and check the ratio of requests that go above our latency threshhold. This is to make sure that the responses of the API are quick so the users will quickly get their model predictinos. Furthermore we monitor the amount of requests to the API since we did not work out load testing, so if the amounts of requests increases above our thresshold we will have to check if everything is still working fine. 
+We worked on implementing some monitoring on the deployed API using google cloud alerts and SLOs similair to what we did in the exercises. With this service we monitor the latency of the requests to the api and check the ratio of requests that go above our latency threshhold. This is to make sure that the responses of the API are quick so the users will quickly get their model predictinos. Furthermore we monitor the amount of requests to the API since we did not work out load testing, so if the amounts of requests increases above our thresshold we will have to check if everything is still working fine.
 
 ## Overall discussion of project
 
@@ -534,7 +534,7 @@ We worked on implementing some monitoring on the deployed API using google cloud
 >
 > Answer:
 
-We only used about $1 for our general project on the API since our used services were not that expensive. Obviously this will would still be subject to change over time. So our developement as a group was rather inexpensive and we still have some credits left for experimentation. Of course we somehow still learned the hard lesson , from one group member who opened a container with a GPU and forgot to shut it down, watching the credits pour away, so the prophecy from the lecture became true. 
+We only used about $1 for our general project on the API since our used services were not that expensive. Obviously this will would still be subject to change over time. So our developement as a group was rather inexpensive and we still have some credits left for experimentation. Of course we somehow still learned the hard lesson , from one group member who opened a container with a GPU and forgot to shut it down, watching the credits pour away, so the prophecy from the lecture became true.
 
 ### Question 28
 
@@ -587,7 +587,7 @@ The biggest challenge in our project was organizing all the various MLOps tools 
 
 Another time-consuming aspect was learning how to properly use and integrate Google Cloud Platform (GCP) services—particularly Vertex AI and Cloud Run. Since most of us had limited experience with these services, we spent some time reviewing official GCP documentation, watching tutorials and experimenting with the services. Other times we struggled a bit since we tried to implement features too late, like working on hydra when we had already used typer for the hyperparameters. Similair we had some challenges when trying to implement lightning after we already had all our training, model and evluation files working so we decided not to refracture everything.
 
-We also ran into challenges with continuous integration (CI) and test coverage. Our codebase grew quickly, and ensuring that the important parts of new functionality was covered by tests took some work, but with the help of the exercise practice it worked well. 
+We also ran into challenges with continuous integration (CI) and test coverage. Our codebase grew quickly, and ensuring that the important parts of new functionality was covered by tests took some work, but with the help of the exercise practice it worked well.
 
 Overall, our biggest takeaway was the importance of proper planning and thinking ahead. By working on each part of the project in smaller steps and working together as a team we were able to integrate the pieces into a full MLOps pipeline successfully.
 
@@ -612,7 +612,7 @@ Student s241878 was in charge of working partially on the basemodel, the api fro
 working partially on the api and helping with some collaboration.
 
 
-Student s243216 and s200513, did the CLI arguments using Typer and writing the FastAPI app and the testing of it. Furthermore, we managed to create our dockerfile and uploaded it to google cloud with help and in collaboration with student s242804. 
+Student s243216 and s200513, did the CLI arguments using Typer and writing the FastAPI app and the testing of it. Furthermore, we managed to create our dockerfile and uploaded it to google cloud with help and in collaboration with student s242804.
 
 
 
