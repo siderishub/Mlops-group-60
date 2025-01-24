@@ -457,8 +457,8 @@ We monitored the training process by streaming logs, which allowed us to track t
 > *to the API to make it more ...*
 >
 > Answer:
+Yes we did manage to write the API. We used FastAPI as taught in in M22. The API includes a /predict/ endpoint for image classification. It processes an uploaded image from a user by reading it, applying test-time transformations  and running inference using our pre trained model.To improve functionality, we added Prometheus metrics to monitor mistakes and requests. We also ensured that the model runs efficiently on GPU or CPU and implemented adequate error handling using HTTP exceptions. Furthermore, we added a /metrics endpoint to expose real-time monitoring data, making the API more robust and production-ready.
 
---- question 23 fill here ---
 
 ### Question 24
 
