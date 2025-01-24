@@ -593,6 +593,11 @@ Furthermore we created Documentation using MkDocs to gain some experience using 
 Student s240828 was in charge of working partially on the basemodel, the api frontend, the documentation, writing parts the report
 working partially on the api and helping with some collaboration.
 
+
+Student s243216 and s200513, did the CLI arguments using Typer and writing the FastAPI app and the testing of it. Furthermore, we managed to create our dockerfile and uploaded it to google cloud with help and in collaboration with student s242804. 
+
+
+
 We used ChatGPT to help us debug our code in cases where we were unfamiliar with error codes or using new packages like Streamlit
 where just a small comment was missing. We partially used GitHub Copilot to write the code but it often was not to useful since
 it seemed to be unaware of the project structure.
