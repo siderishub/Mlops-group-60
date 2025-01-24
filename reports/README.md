@@ -633,6 +633,8 @@ Overall, our biggest takeaway was the importance of proper planning and thinking
 Student s241878 was in charge of working partially on the basemodel, the api frontend, the documentation, writing parts the report
 working partially on the api and helping with some collaboration.
 
+Student s242850 was in charge of creating the basemodel, adding logging, and synchronizing it to weights and biases. Additionally, he contributed by training the model on cloud by using VMs and Vertex AI.
+
 Student s243216 and s200513, did the CLI arguments using Typer and writing the FastAPI app and the testing of it. Furthermore, we managed to create our dockerfile and uploaded it to google cloud with help and in collaboration with student s242804.
 
 We used ChatGPT to help us debug our code in cases where we were unfamiliar with error codes or using new packages like Streamlit
