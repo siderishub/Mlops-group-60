@@ -4,7 +4,7 @@ from PIL import Image
 # to run quickly use "streamlit run frontend.py"
 
 st.title(':robot_face: Pneumonia Detection Model using timm')
-st.info('This app can be used to detect pneumonia from chest X-ray images. Just drop the X-Ray image below!')
+st.info('This app can be used to detect pneumonia from chest X-ray images. Just drop the X-Ray image below.')
 
 # File uploader
 img_data = st.file_uploader(label='Upload an X-Ray image', type=['png', 'jpg', 'jpeg'])
@@ -19,7 +19,7 @@ if img_data is not None:
     img_data.seek(0)
 
     # Send the image to FastAPI endpoint
-    with st.spinner('Predicting...'):
+    with st.spinner('Predicting... model is working hard... :robot:'):
         try:
             files = {"file": (img_data.name, img_data, img_data.type)}
             response = requests.post("https://mlopsapi-31319237799.europe-west1.run.app/predict/", files=files)
@@ -35,12 +35,13 @@ if img_data is not None:
 
 # Display the prediction result
 if prediction is None:
-    st.write('Please upload an image to get the prediction!')
+    st.write('Please upload an image to get the prediction.')
 else:
-    st.write('Our (very smart) model carefully examined the X-Ray. The likely diagnosis is:')
-    st.write(prediction)
+    st.write('Our (very smart) model carefully examined the X-Ray.')
 
     if prediction == 0:
-        st.success('Lucky you, everything seems fine!')
+        st.success('It seems there is no Pneumonia detected.')
+        st.write('Lucky you, everything seems fine! :four_leaf_clover:')
     elif prediction == 1:
-        st.warning('Our team is wishing you a speedy recovery!')
+        st.warning('It seems like pneumonia was detected, please consult a doctor. :male-doctor: :female-doctor:')
+        st.write('Our team is wishing you a speedy recovery! :yellow_heart:')
