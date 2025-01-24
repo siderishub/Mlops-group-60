@@ -500,7 +500,9 @@ We managed to deploy model as an application using FastAPI. Initially, we served
 >
 > Answer:
 
---- question 25 fill here ---
+We performed both unit testing and load testing for our API. For unit testing, we used the pytest framework along with FastAPI's TestClient to validate endpoints. We wrote tests to ensure that each endpoint responded with the expected status codes and data formats. For example, our tests verify that the root endpoint returns a 200 status and a specific JSON payload, and that classifications are successful.
+
+For load testing we used the Locust tool. We simulated various numbers of concurrent users starting from 10 and ramping up to 500 to observe how our API performed under increasing load. During these tests, we measured metrics like requests per second (RPS), average response time, and error rates. Our API handled up to around 300 concurrent users with average latencies under 200 ms before the response times began to increase noticeably. 
 
 ### Question 26
 
@@ -611,10 +613,7 @@ Overall, our biggest takeaway was the importance of proper planning and thinking
 Student s241878 was in charge of working partially on the basemodel, the api frontend, the documentation, writing parts the report
 working partially on the api and helping with some collaboration.
 
-
 Student s243216 and s200513, did the CLI arguments using Typer and writing the FastAPI app and the testing of it. Furthermore, we managed to create our dockerfile and uploaded it to google cloud with help and in collaboration with student s242804.
-
-
 
 We used ChatGPT to help us debug our code in cases where we were unfamiliar with error codes or using new packages like Streamlit
 where just a small comment was missing. We partially used GitHub Copilot to write the code but it often was not to useful since
