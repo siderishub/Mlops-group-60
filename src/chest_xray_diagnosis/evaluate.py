@@ -22,6 +22,7 @@ os.makedirs(evaluate_log_dir, exist_ok=True)
 log_file = os.path.join(evaluate_log_dir, f"evaluate_log_{current_date}.log")
 logger.add(log_file, rotation="1 MB", level="INFO", format="{time} {level} {message}")
 
+
 def evaluate(model, criterion, test_loader, device, name="Pretrained"):
     out_dict_test = {"name": name, "test_acc": [], "test_loss": []}
     test_loss = []

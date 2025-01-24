@@ -3,23 +3,23 @@ import requests
 from PIL import Image
 # to run quickly use "streamlit run frontend.py"
 
-st.title(':robot_face: Pneumonia Detection Model using timm')
-st.info('This app can be used to detect pneumonia from chest X-ray images. Just drop the X-Ray image below.')
+st.title(":robot_face: Pneumonia Detection Model using timm")
+st.info("This app can be used to detect pneumonia from chest X-ray images. Just drop the X-Ray image below.")
 
 # File uploader
-img_data = st.file_uploader(label='Upload an X-Ray image', type=['png', 'jpg', 'jpeg'])
+img_data = st.file_uploader(label="Upload an X-Ray image", type=["png", "jpg", "jpeg"])
 
 prediction = None
 
 if img_data is not None:
     # Display the uploaded image
-    uploaded_img = Image.open(img_data) 
-    st.image(uploaded_img, caption='Provided Image')
-    
+    uploaded_img = Image.open(img_data)
+    st.image(uploaded_img, caption="Provided Image")
+
     img_data.seek(0)
 
     # Send the image to FastAPI endpoint
-    with st.spinner('Predicting... model is working hard... :robot:'):
+    with st.spinner("Predicting... model is working hard... :robot:"):
         try:
             files = {"file": (img_data.name, img_data, img_data.type)}
             response = requests.post("https://mlopsapi-31319237799.europe-west1.run.app/predict/", files=files)
@@ -35,13 +35,13 @@ if img_data is not None:
 
 # Display the prediction result
 if prediction is None:
-    st.write('Please upload an image to get the prediction.')
+    st.write("Please upload an image to get the prediction.")
 else:
-    st.write('Our (very smart) model carefully examined the X-Ray.')
+    st.write("Our (very smart) model carefully examined the X-Ray.")
 
     if prediction == 0:
-        st.success('It seems there is no Pneumonia detected.')
-        st.write('Lucky you, everything seems fine! :four_leaf_clover:')
+        st.success("It seems there is no Pneumonia detected.")
+        st.write("Lucky you, everything seems fine! :four_leaf_clover:")
     elif prediction == 1:
-        st.warning('It seems like pneumonia was detected, please consult a doctor. :male-doctor: :female-doctor:')
-        st.write('Our team is wishing you a speedy recovery! :yellow_heart:')
+        st.warning("It seems like pneumonia was detected, please consult a doctor. :male-doctor: :female-doctor:")
+        st.write("Our team is wishing you a speedy recovery! :yellow_heart:")

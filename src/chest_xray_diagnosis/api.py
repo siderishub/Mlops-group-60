@@ -84,5 +84,4 @@ async def predict(file: UploadFile = File(...)):
     except Exception as e:
         error_counter.inc()
         raise HTTPException(status_code=500, detail=f"Prediction error: {e}")
-        #raise HTTPException(status_code=500, detail=str(e)) from e
-
+        # raise HTTPException(status_code=500, detail=str(e)) from e

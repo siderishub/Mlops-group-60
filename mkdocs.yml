@@ -15,14 +15,14 @@ theme:
   palette:
     - scheme: default
       toggle:
-        icon: material/toggle-switch-off-outline 
+        icon: material/toggle-switch-off-outline
         name: Switch to dark mode
       primary: teal
-      accent: purple 
-    - scheme: slate 
+      accent: purple
+    - scheme: slate
       toggle:
         icon: material/toggle-switch
-        name: Switch to light mode    
+        name: Switch to light mode
       primary: teal
       accent: purple
 
@@ -45,7 +45,7 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
 
 extra:
-  social: 
+  social:
     - icon: fontawesome/brands/github
       link: https://github.com/siderishub/Mlops-group-60
 
@@ -55,7 +55,7 @@ nav:
   - API: api.md
 
 
-  # - Chest X-ray Diagnosis: 
+  # - Chest X-ray Diagnosis:
   #   - Introduction: chest_xray_diagnosis/introduction.md
   #   - Data: chest_xray_diagnosis/data.md
   #   - Model: chest_xray_diagnosis/model.md
