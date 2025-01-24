@@ -316,7 +316,8 @@ Example: python evaluate.py --model-name Pretrained --batch-size 64 --device-typ
 >
 > Answer:
 
---- question 13 fill here ---
+We ensured reproducibility of our experiments by using logs for training metrics and hyperparameters.
+By saving all logs and configurations, we can easily find them again. They also contain the date and time of the experiment. Also we save the model's date and time. We thought of saving the hash of the code commit used for the experiment but we didn't have time to implement that so we check the code based on the date and time of the commit. Although we initially planned to use DVC with the version aware option, it didn't work as intended. Because we relied on having version control for the data to save the hash of the commit we currently don't have a way to save the data of a current test.
 
 ### Question 14
 
@@ -355,7 +356,8 @@ The two images above showcase the logs we saved in the Weights and Biases framew
 >
 > Answer:
 
---- question 15 fill here ---
+Docker was used to containerize what we believe were the most important parts of our application, training and the api.
+We mostly used Docker as an easier way to integrate our code with gcp. Usually it speeds up the process of uploading your infrastucture to have your code containerized so that you can use the images and do it right away. In general the containers can also be used to run the code without any conflicts of any local machine. Both the containers can be build and run locally or uploaded to the cloud with cloudbuild files. There are also triggers which upload the new images to the cloud. for the api a port variable is needed: "docker run mlopsapi:latest --port=8080". For the training although we could add training variables like lr because we have typer in our train.py script we didn't for simplicity.
 
 ### Question 16
 
