@@ -473,8 +473,7 @@ Yes we did manage to write the API. We used FastAPI as taught in in M22. The API
 > *`curl -X POST -F "file=@file.json"<weburl>`*
 >
 > Answer:
-
---- question 24 fill here ---
+We managed to deploy model as an application using FastAPI. Initially, we served the model locally to evaluate its functionality. We then used Docker to containerize the program defining dependencies and parameters in a Dockerfile. The container opens a port for GoogleCloud Run. The image contains both the trained model and the API code, with uvicorn serving the FastAPI app. The cloud deployment was done using GoogleCloud run. 
 
 ### Question 25
 
