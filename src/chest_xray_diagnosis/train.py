@@ -36,7 +36,8 @@ os.makedirs(train_log_dir, exist_ok=True)
 log_file = os.path.join(train_log_dir, f"train_log_{current_date}.log")
 logger.add(log_file, rotation="1 MB", level="INFO", format="{time} {level} {message}")
 
-def train(model, optimizer, criterion, num_epochs=10, name="CNN", use_wandb=False, hyperparams = None):
+
+def train(model, optimizer, criterion, num_epochs=10, name="CNN", use_wandb=False, hyperparams=None):
     """Train the CNN model"""
     out_dict = {"name": name, "train_acc": [], "test_acc": [], "train_loss": [], "test_loss": []}
 
@@ -164,7 +165,7 @@ def main(
                 project="xray",
                 entity="tassios1999-danmarks-tekniske-universitet-dtu",
                 config=hyperparams,
-                name=f"{model_name}_{current_date}"
+                name=f"{model_name}_{current_date}",
             )
         except wandb.errors.UsageError as e:
             logger.warning(f"Failed to initialize wandb: {e}. Proceeding without wandb.")
@@ -174,7 +175,6 @@ def main(
     loss_fn = nn.CrossEntropyLoss()
     logger.info("Starting training")
 
-
     train(
         model=model,
         optimizer=optimizer,
@@ -182,7 +182,7 @@ def main(
         num_epochs=num_epochs,
         name=model_name,
         use_wandb=use_wandb == "True",
-        hyperparams=hyperparams
+        hyperparams=hyperparams,
     )
     logger.info("Training complete")
 

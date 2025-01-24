@@ -1,4 +1,4 @@
-# Machine Learning Operations Project 
+# Machine Learning Operations Project
 
 The following pages contain some basic documentation for our project for MLOps course at DTU 2025.
 We created a baseline model and used a pretrained model from huggingface (timm) to predict pneunomia for an X-Ray image dataset.
@@ -11,7 +11,7 @@ We created a baseline model and used a pretrained model from huggingface (timm) 
     docs/
         index.md  # The documentation homepage.
         modeltraining.md  # Markdown for our model training and other related functions
-        api.md # Markdown page for api 
+        api.md # Markdown page for api
     dockerfiles/
     experiments/
     models/
@@ -39,5 +39,3 @@ We created a baseline model and used a pretrained model from huggingface (timm) 
     requirements_tests.tx
     requirements.txt
     tasks.py
-
-

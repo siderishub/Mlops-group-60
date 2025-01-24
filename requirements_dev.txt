@@ -13,4 +13,4 @@ mkdocs-material==9.5.49
 mkdocstrings-python==1.12.2
 
 wandb==0.19.3
-locust==2.32.6 
+locust==2.32.6

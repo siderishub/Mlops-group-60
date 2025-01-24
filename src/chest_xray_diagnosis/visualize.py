@@ -36,7 +36,7 @@ def plot_metrics(out_dicts, filename=""):
             label=f'{out_dict["name"]} Train Loss',
             marker="o",
             color=col,
-            linestyle='solid',
+            linestyle="solid",
         )
         # ax2.plot(epochs, out_dict['test_loss'], label=f'{out_dict["name"]} Test Loss', marker='x', color=col)
     ax2.set_title("Loss over Epochs")
