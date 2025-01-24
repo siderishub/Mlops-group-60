@@ -571,6 +571,7 @@ Furthermore we created Documentation using MkDocs to gain some experience using 
 >
 > Answer:
 ![alt text](<Skærmbillede 2025-01-24 kl. 14.53.53.png>)
+
 The architecture starts with a local development environment driven by Typer that makes it easy to run the commands and manage the data pipeline. Logs and experiment measurements are saved in Weights & Biases (W&B) to provide effective monitoring and reproducibility. The system uses dvc (data version control) pull to retrieve relevant data and models from a storage bucket (google cloud), keeping the local environment in sync with the remote data.
 
 Once development or updates are complete locally, they are committed and published to GitHub, which serves as a version control and our collaborative coding platform/repo. Each commit initiates a series of automated workflows that handle important activities like testing, building and documentation generation.
