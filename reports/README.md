@@ -497,6 +497,7 @@ Yes we did manage to write the API. We used FastAPI as taught in in M22 "Request
 > *`curl -X POST -F "file=@file.json"<weburl>`*
 >
 > Answer:
+
 We managed to deploy model as an application using FastAPI. Initially, we served the model locally to evaluate its functionality. We then used Docker to containerize the program defining dependencies and parameters in a Dockerfile. The container opens a port for GoogleCloud Run. The image contains both the trained model and the API code, with uvicorn serving the FastAPI app. The cloud deployment was done using GoogleCloud run.
 
 ### Question 25
@@ -514,7 +515,7 @@ We managed to deploy model as an application using FastAPI. Initially, we served
 
 We performed both unit testing and load testing for our API. For unit testing, we used the pytest framework along with FastAPI's TestClient to validate endpoints. We wrote tests to ensure that each endpoint responded with the expected status codes and data formats. For example, our tests verify that the root endpoint returns a 200 status and a specific JSON payload, and that classifications are successful.
 
-For load testing we used the Locust tool. We simulated various numbers of concurrent users starting from 10 and ramping up to 500 to observe how our API performed under increasing load. During these tests, we measured metrics like requests per second (RPS), average response time, and error rates. Our API handled up to around 300 concurrent users with average latencies under 200 ms before the response times began to increase noticeably. 
+For load testing we used the Locust tool. We simulated various numbers of concurrent users starting from 10 and ramping up to 500 to observe how our API performed under increasing load. During these tests, we measured metrics like requests per second (RPS), average response time, and error rates. Our API handled up to around 300 concurrent users with average latencies under 200 ms before the response times began to increase noticeably.
 
 ### Question 26
 
@@ -591,7 +592,7 @@ Once development or updates are complete locally, they are committed and publish
 Following successful workflow completion, the pipeline connects to a container registry to create and store Dockerized API images, ensuring consistent and scalable deployments. The containerized API is subsequently deployed to a cloud-based API service, making model predictions or data insights available.
 
 
-To allow user engagement, a Streamlit front-end website with an easy-to-use interface is deployed. Users (like you, Nicki) can upload an x-ray image and utilize the pre-trained algorithm to classify a lung illness. 
+To allow user engagement, a Streamlit front-end website with an easy-to-use interface is deployed. Users (like you, Nicki) can upload an x-ray image and utilize the pre-trained algorithm to classify a lung illness.
 
 ### Question 30
 
@@ -630,12 +631,16 @@ Overall, our biggest takeaway was the importance of proper planning and thinking
 > Answer:
 
 
-Student s241878 was in charge of working partially on the basemodel, the api frontend, the documentation, writing parts the report
+Student s241878 was in charge of working partially on the basemodel, the api frontend, the documentation, the metrics, writing parts the report
 working partially on the api and helping with some collaboration.
 
 Student s242850 was in charge of creating the basemodel, adding logging, and synchronizing it to weights and biases. Additionally, he contributed by training the model on cloud by using VMs and Vertex AI.
 
 Student s243216 and s200513, did the CLI arguments using Typer and writing the FastAPI app and the testing of it. Furthermore, we managed to create our dockerfile and uploaded it to google cloud with help and in collaboration with student s242804.
+
+Student s242804 created the tests, the workflows and the triggers. He also focused on some other cloud activities.
+
+Although some people might have played a bigger part in some parts, work was mostly done in a group setting so people got exposed to all of the contents of the project.
 
 We used ChatGPT to help us debug our code in cases where we were unfamiliar with error codes or using new packages like Streamlit
 where just a small comment was missing. We partially used GitHub Copilot to write the code but it often was not to useful since
